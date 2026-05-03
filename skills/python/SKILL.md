@@ -138,6 +138,27 @@ def _format_name(first: str, last: str) -> str:
 | Positional args for 4+ params | Call sites are unreadable | `*` to force keyword args |
 | Verbose helper docstrings | Noise for simple functions | One-line docstring |
 
+## Leading Underscores
+
+A single leading underscore says "internal — don't call or import this from outside this module." Reserve it for two cases where outside use would cause a real problem:
+
+- **Internal functions and methods.** A `_helper` may skip validation the public API enforces, hold an invariant of the surrounding function, or change shape at any time. The underscore protects callers from depending on it.
+- **Mutable singleton state used for lazy initialization.** `_queue`, `_started`, `_patched`, `_server_url` are module-managed state. Outside code reaching in to mutate them would break the module's invariants, so the underscore says "leave this alone."
+
+Do **not** prefix with underscore:
+
+- **Module-level constants.** They're inert values. `UPPER_CASE` already conveys "constant"; the underscore adds noise without protecting anything. Use `MAX_RETRIES`, not `_MAX_RETRIES`; `OK`, not `_OK`.
+- **Classes**, even ones used only inside the module. Privacy comes from *where the class lives* (don't re-export it from `__init__.py`, keep it next to its caller). The leading underscore on a class name is visual noise that doesn't enforce anything Python wouldn't already enforce by import path. Use `RequestTracer`, not `_RequestTracer`.
+
+| Allowed | Disallowed |
+|---------|------------|
+| `def _build_summary(...)` (internal helper) | `MAX_RETRIES = 3` (constant — drop underscore) |
+| `def _resolve_id(...)` (internal helper) | `OK = Response(...)` (constant — drop underscore) |
+| `_queue: queue.Queue = ...` (mutable singleton) | `class _Tracer: ...` (class — drop underscore) |
+| `_started: bool = False` (mutable singleton) | `_DEFAULT_HEADERS = {...}` (constant — drop underscore) |
+
+Dunders (`__init__`, `__enter__`, …) are unaffected — those are Python's protocol, not the privacy convention.
+
 ## Type Hints (PEP 604)
 
 Use modern union syntax. Never import from `typing` for basic types:
@@ -182,6 +203,7 @@ After writing Python code, verify:
 - [ ] Entry points are thin wrappers calling service functions
 - [ ] All imports are at the top of the file
 - [ ] Module reads top-down (Clean Code's *newspaper metaphor*): public API on top, helpers below
+- [ ] Leading underscores reserved for internal functions/methods and mutable singleton state — not constants or classes
 - [ ] Function parameters and returns are annotated where the type is informative (no `Any`-everywhere on wrappers/passthroughs)
 - [ ] Functions with 4+ parameters use keyword-only arguments
 - [ ] No `typing.Union`, `typing.Optional`, `typing.List`, `typing.Dict` imports
