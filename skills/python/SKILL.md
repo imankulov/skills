@@ -104,6 +104,7 @@ def create_user_cli(email: str, name: str) -> None:
 - For functions with more than 3 parameters, use keyword-only arguments (`*`)
 - Prefix internal helper functions with underscore
 - Keep helper function documentation concise
+- Order a file top-down like a newspaper — the *newspaper metaphor* from Robert C. Martin's *Clean Code*: public functions (the headline) first, helpers (the supporting detail) below them. A `_helper` used by exactly one public function should sit directly under it. (Pydantic/dataclass types are an exception — group them near the top so they're defined before use.)
 
 ```python
 def process_user_data(*, user_id: int, name: str, email: str, age: int) -> dict[str, any]:
@@ -180,6 +181,7 @@ After writing Python code, verify:
 - [ ] Business logic lives in services.py, not in entry points
 - [ ] Entry points are thin wrappers calling service functions
 - [ ] All imports are at the top of the file
+- [ ] Module reads top-down (Clean Code's *newspaper metaphor*): public API on top, helpers below
 - [ ] Function parameters and returns are annotated where the type is informative (no `Any`-everywhere on wrappers/passthroughs)
 - [ ] Functions with 4+ parameters use keyword-only arguments
 - [ ] No `typing.Union`, `typing.Optional`, `typing.List`, `typing.Dict` imports
