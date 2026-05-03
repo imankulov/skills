@@ -162,6 +162,8 @@ team:
 - Offer genuine value, not just ask for favors
 - Don't pretend to be bigger than you are
 - Don't use corporate language ("contact our support team", "we're excited to announce")
+- Don't frame bug fixes or resolved issues as "good news." Saying "Good news: we fixed
+  the issue" when the issue was on your end sounds fake. Just state what you did.
 
 ## Quick Self-Check
 
