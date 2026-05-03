@@ -98,7 +98,8 @@ def create_user_cli(email: str, name: str) -> None:
 
 ## Functions
 
-- Type-annotate all parameters and return values
+- Type-annotate parameters and return values when the type carries information
+- Don't annotate for the sake of annotating. If the only honest type is `Any` (e.g., a wrapper around an optional/dynamically-imported library, a generic decorator, a `**kwargs` passthrough), leave it unannotated rather than sprinkling `Any` everywhere — `Any` adds noise without giving the reader, the type checker, or the IDE anything useful
 - Google-style docstrings without type information (types are in the signature)
 - For functions with more than 3 parameters, use keyword-only arguments (`*`)
 - Prefix internal helper functions with underscore
@@ -130,7 +131,8 @@ def _format_name(first: str, last: str) -> str:
 
 | Avoid | Why | Instead |
 |-------|-----|---------|
-| Missing type hints | No IDE support, no static checking | Annotate everything |
+| Missing type hints where a real type exists | No IDE support, no static checking | Annotate with the actual type |
+| `Any` annotations on every param of a passthrough/wrapper | Noise without information | Leave unannotated |
 | Types in docstrings | Redundant with annotations, drifts | Google-style without types |
 | Positional args for 4+ params | Call sites are unreadable | `*` to force keyword args |
 | Verbose helper docstrings | Noise for simple functions | One-line docstring |
@@ -178,7 +180,7 @@ After writing Python code, verify:
 - [ ] Business logic lives in services.py, not in entry points
 - [ ] Entry points are thin wrappers calling service functions
 - [ ] All imports are at the top of the file
-- [ ] All function parameters and returns have type annotations
+- [ ] Function parameters and returns are annotated where the type is informative (no `Any`-everywhere on wrappers/passthroughs)
 - [ ] Functions with 4+ parameters use keyword-only arguments
 - [ ] No `typing.Union`, `typing.Optional`, `typing.List`, `typing.Dict` imports
 - [ ] Class abbreviations use CamelCase (JsonParser, not JSONParser)
