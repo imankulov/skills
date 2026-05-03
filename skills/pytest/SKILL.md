@@ -176,7 +176,20 @@ assert data["pages"][0]["pagePath"] == "https://example.com/page2"
 
 ## E2E Tests
 
-Mark tests that call external services with `@pytest.mark.e2e`:
+The `@pytest.mark.e2e` marker is for tests that someone running `pytest` locally would
+not want to run by default. Apply it when a test:
+
+- Hits **external/third-party services** (real LLM provider, Stripe, GitHub API, etc.)
+- Requires **paid resources** or burns API quota
+- Needs **extra setup or credentials** beyond the standard dev environment
+  (live database, browser drivers, secrets, network access to internal hosts)
+- Drives a **real browser** (Playwright, Selenium)
+- Is **noticeably slow** (multi-second) or **flaky** by nature
+
+Tests that spin up an in-process server, mock target, or local subprocess and run
+self-contained do **not** need the marker — they're integration tests, not e2e.
+A test that boots a real uvicorn on a random port and makes localhost requests is
+still a normal test.
 
 ```python
 @pytest.mark.e2e
@@ -186,7 +199,8 @@ def test_llm_provider_extracts_greeting(llm_provider):
 ```
 
 The marker alone is sufficient — no `os.environ` checks needed. CI skips them
-automatically with `pytest -m "not e2e"`.
+automatically with `pytest -m "not e2e"`. To mark every test in a file, set
+`pytestmark = pytest.mark.e2e` at module level instead of decorating each function.
 
 ## Anti-Patterns
 
@@ -206,6 +220,6 @@ After writing tests, verify:
 - [ ] Tests follow AAA pattern with clear separation
 - [ ] Fixtures are in the right conftest.py (not in test files)
 - [ ] Parametrize is used for multiple input/output combinations
-- [ ] E2E tests are marked with `@pytest.mark.e2e`
+- [ ] Tests that hit external services, require paid/live resources, drive a browser, or are slow/flaky are marked with `@pytest.mark.e2e` (self-contained tests with local subprocesses or in-process servers don't need the marker)
 - [ ] No test classes — only flat functions
 - [ ] Database tests either use db-providing fixtures or `@pytest.mark.django_db`
