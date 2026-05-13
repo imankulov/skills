@@ -145,11 +145,23 @@ Keep subject lines lowercase (except proper nouns) and conversational.
 5. **Avoid marketing superlatives.** Don't call things "powerful", "cutting-edge", or
    "revolutionary."
 6. **Don't hedge.** Avoid "helps you to", "allows you to", "enables you to". Just say
-   what it does.
+   what it does. Exception: in help copy, "may", "usually", and "often" are fine
+   when they set accurate expectations for behavior that depends on the user's data.
 
 Bad: "Our platform enables you to gain valuable insights that help you make data-driven
 decisions."
 Good: "See what's working on your site."
+
+### Make Help Copy Reader-Led
+
+For help pages and docs, connect the explanation to the reader's situation.
+
+- Start from what the reader may see: "If your engagement rate dropped..."
+- Use "you" when it clarifies the next action or expected result.
+- Say what to check, where to find it, and what may change after the action.
+- Use "may", "usually", and "often" only when the outcome truly depends on the user's data.
+
+Avoid fake warmth, rhetorical questions, and adding "you" to every sentence.
 
 ## Outbound Email Voice
 
