@@ -13,6 +13,7 @@ Opinionated AI agent skills for Python, Django, and software development.
 | [copywriting](skills/copywriting/) | Natural voice guidelines, AI-tell word avoidance, email subject lines, formatting rules, outbound email voice |
 | [docstore](skills/docstore/) | Document-collection data organization for semi-structured repositories, file placement conventions, collection-based directory structure |
 | [screenshot-maker](skills/screenshot-maker/) | Documentation-ready screenshots with element targeting, blur, highlight (border/spotlight), and professional framing (rounded corners, shadows, gradient backgrounds) |
+| [dependency-cooldown](skills/dependency-cooldown/) | Configure minimum release age (default 7 days) for npm, pnpm, yarn, uv, pip at user or project level to defend against supply chain attacks |
 
 ## Install
 
