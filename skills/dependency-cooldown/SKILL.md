@@ -43,7 +43,8 @@ units — the table below lists the **7-day value** for each.
 | pip       | `uploaded-prior-to`    | ISO 8601 | `P7D`       | pip 26.1          |
 
 Before writing config, check the installed version with `<manager> --version`. If too
-old, tell the user — do not silently write a config their tool will reject.
+old, offer to upgrade using the recipes in the **Upgrade Recipes** section below. Skip
+only if the user declines the upgrade.
 
 ## Recipes
 
@@ -175,6 +176,65 @@ Not supported. Poetry has no native cooldown. If the user insists, point them at
 [AikidoSec/safe-chain](https://github.com/AikidoSec/safe-chain) as a wrapper, or
 suggest migrating resolution to uv.
 
+## Upgrade Recipes
+
+Always ask the user before upgrading — do not run these automatically. Upgrading a
+package manager is a meaningful change to their environment and may have side effects
+they need to be aware of. Present the recipe and ask for confirmation first.
+
+Use these when a tool's version is below the minimum required for cooldown support.
+
+### npm
+
+```bash
+npm install -g npm@latest
+```
+
+### pnpm
+
+How to upgrade depends on how pnpm was installed. Check with `which pnpm`:
+
+- **Installed via npm global** (path contains `.nvm` or `node_modules`):
+  ```bash
+  npm install -g pnpm@latest
+  ```
+  Note: with nvm, global npm packages are per Node version. If you switch Node versions,
+  pnpm won't be there. Use the standalone installer to avoid this:
+  ```bash
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+  ```
+
+- **Installed via standalone** (path contains `.local/share/pnpm` or similar):
+  ```bash
+  pnpm self-update
+  ```
+
+- **Installed via Homebrew**:
+  ```bash
+  brew upgrade pnpm
+  ```
+
+### pip (pyenv setups)
+
+The user-level `pip.conf` is read by **every** pip on the machine, so all pyenv pips
+must be at 26.1+ before writing the config. Upgrade them first:
+
+```bash
+# Upgrade pip in all pyenv environments
+for pip_bin in ~/.pyenv/versions/*/bin/pip; do
+  "$pip_bin" install --upgrade pip
+done
+```
+
+If a too-old pip already has the config written (bootstrap trap), use `--isolated` to
+bypass the config for that one invocation:
+
+```bash
+pip install --isolated --upgrade pip
+```
+
+Then write the config only after all pips are confirmed at 26.1+.
+
 ## Workflow
 
 1. Ask user-level or project-level (unless they already said).
@@ -182,7 +242,9 @@ suggest migrating resolution to uv.
    - Project: look for `package.json` (+ which lockfile), `pyproject.toml`,
      `requirements*.txt`, `.npmrc`, `.yarnrc.yml`, `pnpm-workspace.yaml`.
    - User: ask which the user actually uses, or apply to all installed ones.
-3. Verify each tool's version meets the minimum. Skip and warn for outdated ones.
+3. Verify each tool's version meets the minimum. If too old, offer to upgrade using the
+   Upgrade Recipes section. For pip/pyenv: upgrade all interpreters before writing the
+   config to avoid the bootstrap trap.
 4. Apply the 7-day value from the table. Use the CLI form (`config set`) when the
    manager supports it; otherwise edit the config file directly.
 5. For pnpm/yarn project-level, ask if the org has an internal package scope to add to
@@ -199,6 +261,7 @@ suggest migrating resolution to uv.
 | Skipping the org-scope bypass | Internal releases get gated, blocking deploys | Add `minimumReleaseAgeExclude` / `npmPreapprovedPackages` / `exclude-newer-package` |
 | Adding cooldown to Poetry config | No native support | Recommend safe-chain or uv migration |
 | Recommending pip project-level config | pip has no project config file | User-level only, or pass `--uploaded-prior-to` on each invocation |
+| Writing pip config before upgrading all pyenv pips | Too-old pip errors on every install; `pip install -U pip` also fails (bootstrap trap) | Upgrade all pyenv pips first; use `--isolated` to escape the trap if already set |
 
 ## Verification
 
@@ -212,6 +275,9 @@ suggest migrating resolution to uv.
       inspecting the file for managers without a `config get` command) — this catches
       silent failures like the yarn `"7d"` parsing bug, where the write "succeeds" but
       the value is wrong
+- [ ] For npm specifically: `npm config get min-release-age` may return `null` even when
+      `~/.npmrc` has the value set (known display bug in npm 11). Verify by reading the
+      file directly: `cat ~/.npmrc | grep min-release-age`
 
 ## Sources
 
