@@ -10,7 +10,7 @@ Opinionated AI agent skills for Python, Django, and software development.
 | [django](skills/django/) | Models, views, admin, Celery task patterns, service provider pattern |
 | [django-ninja](skills/django-ninja/) | Django Ninja routers, auth tiers, typed requests, Pydantic input/output models |
 | [pytest](skills/pytest/) | AAA pattern, fixture organization, parametrize, Django database access, mock client testing, e2e test conventions |
-| [copywriting](skills/copywriting/) | Natural voice guidelines, AI-tell word avoidance, email subject lines, formatting rules, outbound email voice |
+| [writing](skills/writing/) | Clear prose guidelines, Strunk's composition rules, AI-tell word avoidance, formatting, email voice |
 | [docstore](skills/docstore/) | Document-collection data organization for semi-structured repositories, file placement conventions, collection-based directory structure |
 | [screenshot-maker](skills/screenshot-maker/) | Documentation-ready screenshots with element targeting, blur, highlight (border/spotlight), and professional framing (rounded corners, shadows, gradient backgrounds) |
 | [dependency-cooldown](skills/dependency-cooldown/) | Configure minimum release age (default 7 days) for npm, pnpm, yarn, uv, pip at user or project level to defend against supply chain attacks |
