@@ -145,6 +145,8 @@ A single leading underscore says "internal — don't call or import this from ou
 - **Internal functions and methods.** A `_helper` may skip validation the public API enforces, hold an invariant of the surrounding function, or change shape at any time. The underscore protects callers from depending on it.
 - **Mutable singleton state used for lazy initialization.** `_queue`, `_started`, `_patched`, `_server_url` are module-managed state. Outside code reaching in to mutate them would break the module's invariants, so the underscore says "leave this alone."
 
+**If another module needs to import it, it's not internal — drop the underscore.** The moment you write `from foo import _bar` in a different module, the underscore is a lie. Either the function is truly internal (don't import it) or it's a shared utility (move it to a common module and remove the prefix). When extracting helpers from one module into a shared `utils.py`, always drop the underscores — they were internal to the *old* module, not to the *new* one.
+
 Do **not** prefix with underscore:
 
 - **Module-level constants.** They're inert values. `UPPER_CASE` already conveys "constant"; the underscore adds noise without protecting anything. Use `MAX_RETRIES`, not `_MAX_RETRIES`; `OK`, not `_OK`.
@@ -158,6 +160,17 @@ Do **not** prefix with underscore:
 | `_started: bool = False` (mutable singleton) | `_DEFAULT_HEADERS = {...}` (constant — drop underscore) |
 
 Dunders (`__init__`, `__enter__`, …) are unaffected — those are Python's protocol, not the privacy convention.
+
+## Import Hygiene
+
+**Don't alias imports without a reason.** `from foo import bar as _bar` or
+`from foo import bar as baz` obscures the real name. If there's no actual name
+collision, use the original name.
+
+**Shared utilities belong in a utility module.** When a helper is first written inside
+the module that needs it, that's fine. The moment a *second* module imports it, move it
+to a shared location (`utils.py`, `helpers.py`, etc.). Don't let `module_b` depend on
+`module_a` just because `module_a` happened to define a generic string helper first.
 
 ## Type Hints (PEP 604)
 
@@ -203,7 +216,9 @@ After writing Python code, verify:
 - [ ] Entry points are thin wrappers calling service functions
 - [ ] All imports are at the top of the file
 - [ ] Module reads top-down (Clean Code's *newspaper metaphor*): public API on top, helpers below
-- [ ] Leading underscores reserved for internal functions/methods and mutable singleton state — not constants or classes
+- [ ] Leading underscores reserved for internal functions/methods and mutable singleton state — not constants, classes, or cross-module imports
+- [ ] No `from foo import _bar` — if another module needs it, drop the underscore and move to a shared location
+- [ ] No unnecessary import aliases (`from x import y as _y`)
 - [ ] Function parameters and returns are annotated where the type is informative (no `Any`-everywhere on wrappers/passthroughs)
 - [ ] Functions with 4+ parameters use keyword-only arguments
 - [ ] No `typing.Union`, `typing.Optional`, `typing.List`, `typing.Dict` imports
