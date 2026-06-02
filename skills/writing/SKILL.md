@@ -253,8 +253,27 @@ Good:
 
 ### Em Dashes
 
-Don't use em dashes. Replace with periods, commas, colons, or rephrase. Em dashes are
-overused in AI-generated text.
+Don't use em dashes. Replace with commas, colons, conjunctions, or rephrase. Em dashes
+are overused in AI-generated text.
+
+### Colons and Choppy Sentences
+
+When replacing em dashes, don't mechanically swap them for colons or split into short
+sentences. Both produce the same staccato feel. Instead, use conjunctions (because,
+where, while, since, and) to merge related ideas into one flowing sentence. Two short
+sentences separated by a period or joined by a colon often read better as one sentence
+with a conjunction.
+
+Bad: "You also get automatic tool discovery. The agent sees available tools and their
+schemas."
+Good: "You also get automatic tool discovery, where the agent sees available tools and
+their schemas."
+
+Bad: "A CLI script is the simplest option: the agent calls it via Bash."
+Good: "A CLI script is the simplest option, because the agent calls it via Bash."
+
+Don't overdo it. If a sentence is already long, a period is fine. The goal is natural
+flow, not run-on sentences.
 
 ## Email Subject Lines
 
@@ -324,6 +343,7 @@ Before publishing:
 - [ ] Are there any triplets I can trim?
 - [ ] Is anything in bold that shouldn't be?
 - [ ] Any em dashes to remove?
+- [ ] Too many colons or choppy short sentences? Could conjunctions improve the flow?
 - [ ] Is the voice active? Any needless passive constructions?
 - [ ] Am I saying what something *is*, not what it *isn't*?
 - [ ] Do parallel ideas use the same grammatical form?
