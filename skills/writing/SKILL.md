@@ -40,6 +40,7 @@ These words are statistically overused in AI-generated text and signal inauthent
 - "testament" (e.g., "a testament to")
 - "game-changer", "game-changing"
 - "unlock" (as metaphor for enabling features)
+- "honestly" (as a sentence opener or intensifier, e.g., "Honestly, this was surprising")
 
 **Use sparingly or find alternatives:**
 
