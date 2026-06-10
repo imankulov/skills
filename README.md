@@ -14,6 +14,7 @@ Opinionated AI agent skills for Python, Django, and software development.
 | [draft](skills/draft/) | Draft any human-facing text (Slack messages, emails, proposals, summaries) — saves to a temp file and opens in VS Code |
 | [docstore](skills/docstore/) | Document-collection data organization for semi-structured repositories, file placement conventions, collection-based directory structure |
 | [screenshot-maker](skills/screenshot-maker/) | Documentation-ready screenshots with element targeting, blur, highlight (border/spotlight), and professional framing (rounded corners, shadows, gradient backgrounds) |
+| [sessions](skills/sessions/) | List past Claude Code sessions for the current project — dates, turn counts, first message, session IDs |
 | [dependency-cooldown](skills/dependency-cooldown/) | Configure minimum release age (default 7 days) for npm, pnpm, yarn, uv, pip at user or project level to defend against supply chain attacks |
 
 ## Install
