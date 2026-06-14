@@ -16,6 +16,8 @@ Opinionated AI agent skills for Python, Django, and software development.
 | [screenshot-maker](skills/screenshot-maker/) | Documentation-ready screenshots with element targeting, blur, highlight (border/spotlight), and professional framing (rounded corners, shadows, gradient backgrounds) |
 | [sessions](skills/sessions/) | List past Claude Code sessions for the current project — dates, turn counts, first message, session IDs |
 | [dependency-cooldown](skills/dependency-cooldown/) | Configure minimum release age (default 7 days) for npm, pnpm, yarn, uv, pip at user or project level to defend against supply chain attacks |
+| [editor-content](skills/editor-content/) | Reader-perspective content review — finds where prose drags, confuses, or loses the reader; flags AI tells, triplets, and overexplaining; reports a table of issues by default, or applies the fixes in-place when asked |
+| [editor-copy](skills/editor-copy/) | In-place copy edit for grammar, style, and phrasing, applying the writing skill's guidelines without rewriting content or touching code |
 
 ## Install
 
