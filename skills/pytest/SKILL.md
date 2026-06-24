@@ -6,6 +6,12 @@ description: |
   Covers fixture organization, database access patterns, API testing, and mock clients.
   Do NOT use for: JavaScript/TypeScript tests, unittest-style tests, or non-pytest
   frameworks.
+metadata:
+  imankulov.skills-sh-group: Python
+  imankulov.skills-sh-order: "40"
+  imankulov.claude-display-name: Pytest
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "pytest,agent-skills"
 ---
 
 # Pytest Standards

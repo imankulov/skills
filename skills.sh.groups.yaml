@@ -1,0 +1,9 @@
+groups:
+  - title: Python
+    description: Skills for Python application development and testing.
+  - title: Writing
+    description: Skills for drafting, reviewing, and editing prose.
+  - title: Tools
+    description: Utilities for documentation and agent workflows.
+  - title: Security
+    description: Skills for safer dependency management.

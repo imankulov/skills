@@ -7,6 +7,12 @@ description: |
   if they don't say "draft" explicitly. Also use when they say things like "put together
   a Slack message", "help me respond to this", "write up a proposal", "summarize what
   we found", or "save this to a draft".
+metadata:
+  imankulov.skills-sh-group: Writing
+  imankulov.skills-sh-order: "20"
+  imankulov.claude-display-name: Draft
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "draft,agent-skills"
 ---
 
 # Draft

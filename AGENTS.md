@@ -46,6 +46,12 @@ name: my-skill
 description: |
   What this skill does and when to use it. Also use when [related triggers].
   Do NOT use for: [explicit exclusions to prevent false matches].
+metadata:
+  imankulov.skills-sh-group: Python
+  imankulov.skills-sh-order: "10"
+  imankulov.claude-display-name: My Skill
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "python,testing,agent-skills"
 ---
 ```
 
@@ -73,6 +79,23 @@ Bad description:
 ```yaml
 description: Django patterns and best practices.
 ```
+
+**metadata**: Optional string-to-string values used by repository integrations. Keep
+keys flat and namespaced because the Agent Skills specification does not permit nested
+metadata values.
+
+| Key | Purpose | Default |
+|-----|---------|---------|
+| `imankulov.skills-sh-group` | Group title from `skills.sh.groups.yaml` | Ungrouped |
+| `imankulov.skills-sh-order` | Numeric sort order within the group | `"100"` |
+| `imankulov.claude-display-name` | Claude marketplace display name | Title-cased skill name |
+| `imankulov.claude-category` | Claude marketplace category | `development` |
+| `imankulov.claude-keywords` | Comma-separated marketplace keywords and tags | Skill-name parts plus `agent-skills` |
+
+Group titles, descriptions, and display order live only in `skills.sh.groups.yaml`.
+The order of entries in that file determines the group display order. A skill declares
+only its group membership and optional within-group order. Omit
+`imankulov.skills-sh-group` to show it under “Other skills” on skills.sh.
 
 ### Body Structure
 
@@ -206,28 +229,41 @@ python scripts/install.py
 # Install specific skills
 python scripts/install.py django pytest
 
-# Force overwrite
+# Replace existing symlinks without prompting
 python scripts/install.py -f
 ```
 
 This creates symlinks in `~/.agents/skills/` and `~/.claude/skills/`, so updates
-to the repo are immediately reflected.
+to the repo are immediately reflected. The installer never replaces regular files or
+directories, even with `-f`.
 
-## Marketplace metadata
+## Generated repository metadata
 
-After adding, renaming, or removing a skill, regenerate the Claude Code marketplace:
+After adding, renaming, or removing a skill, regenerate the repository catalogs:
 
 ```bash
-python scripts/generate_marketplace.py
+uv run scripts/generate_marketplace.py
 ```
 
-The generator reads each skill's `name` and `description` frontmatter and updates
-`.claude-plugin/marketplace.json`. It does not generate per-skill plugin manifests.
+The generator reads each skill's `name`, `description`, and namespaced `metadata`
+frontmatter, plus the group definitions in `skills.sh.groups.yaml`. It updates:
+
+- `.claude-plugin/marketplace.json` for Claude Code
+- `skills.sh.json` for the repository page on skills.sh
+
+It does not generate per-skill plugin manifests. When adding a skill:
+
+1. Add its marketplace metadata to `SKILL.md`.
+2. Set `imankulov.skills-sh-group` to an existing title from
+   `skills.sh.groups.yaml`, or omit it to leave the skill ungrouped.
+3. Edit `skills.sh.groups.yaml` only when adding, renaming, reordering, or describing
+   a group.
+4. Run the generator.
 
 Check generated metadata without changing files:
 
 ```bash
-python scripts/generate_marketplace.py --check
+uv run scripts/generate_marketplace.py --check
 ```
 
 The repository's pre-commit hook runs the generator automatically.

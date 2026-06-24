@@ -8,6 +8,12 @@ description: |
   to sound natural.
   Do NOT use for: agent instructions (AGENTS.md, SKILL.md, CLAUDE.md), or other files
   primarily read by AI agents.
+metadata:
+  imankulov.skills-sh-group: Writing
+  imankulov.skills-sh-order: "10"
+  imankulov.claude-display-name: Writing
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "writing,agent-skills"
 ---
 
 # Writing Guidelines

@@ -10,6 +10,12 @@ description: |
   edits the file directly and reports what changed.
   Do NOT use for: grammar, spelling, and phrasing fixes (use the editor-copy skill),
   or agent instruction files (AGENTS.md, SKILL.md, CLAUDE.md).
+metadata:
+  imankulov.skills-sh-group: Writing
+  imankulov.skills-sh-order: "30"
+  imankulov.claude-display-name: Editor Content
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "editor,content,agent-skills"
 ---
 
 # Editor: content review

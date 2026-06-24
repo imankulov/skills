@@ -7,6 +7,12 @@ description: |
   Also use when reviewing or refactoring Django code or creating new Django apps.
   Do NOT use for: Django Ninja API endpoints (use django-ninja skill), FastAPI, Flask,
   general Python (use python skill), test files (use pytest skill), or frontend code.
+metadata:
+  imankulov.skills-sh-group: Python
+  imankulov.skills-sh-order: "20"
+  imankulov.claude-display-name: Django
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "django,agent-skills"
 ---
 
 # Django Development Patterns

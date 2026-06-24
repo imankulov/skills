@@ -7,6 +7,12 @@ description: |
   "what did I work on last week", or "find the session where I...".
   Do NOT use for: resuming sessions (use `claude --resume`), or managing session
   settings.
+metadata:
+  imankulov.skills-sh-group: Tools
+  imankulov.skills-sh-order: "30"
+  imankulov.claude-display-name: Sessions
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "sessions,agent-skills"
 ---
 
 # Sessions

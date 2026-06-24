@@ -6,26 +6,7 @@ import os
 import sys
 from pathlib import Path
 
-REPO_DIR = Path(__file__).resolve().parent.parent
-SKILLS_DIR = REPO_DIR / "skills"
-TARGETS = [
-    Path.home() / ".agents" / "skills",
-    Path.home() / ".claude" / "skills",
-]
-
-
-def find_skills(names: list[str] | None) -> list[Path]:
-    """Find skill directories in the repo. If names given, use those; otherwise discover all."""
-    if names:
-        skills = []
-        for name in names:
-            skill_dir = SKILLS_DIR / name
-            if not (skill_dir / "SKILL.md").exists():
-                print(f"error: '{name}' is not a skill (no SKILL.md found)", file=sys.stderr)
-                sys.exit(1)
-            skills.append(skill_dir)
-        return skills
-    return sorted(d for d in SKILLS_DIR.iterdir() if d.is_dir() and (d / "SKILL.md").exists())
+from skill_paths import TARGETS, find_skills
 
 
 def confirm(msg: str) -> bool:
@@ -44,28 +25,44 @@ def install_skill(skill: Path, target_dir: Path, force: bool) -> bool:
     if link.exists() or link.is_symlink():
         if link.is_symlink() and link.resolve() == skill.resolve():
             return True  # already correct
-        kind = "symlink" if link.is_symlink() else "directory"
+        if not link.is_symlink():
+            print(
+                f"  skipped: {link} exists and is not a symlink",
+                file=sys.stderr,
+            )
+            return False
+
         if not force:
-            existing = f" -> {os.readlink(link)}" if link.is_symlink() else ""
-            if not confirm(f"  {link} already exists ({kind}{existing}). Replace?"):
+            if not confirm(
+                f"  {link} already exists (symlink -> {os.readlink(link)}). Replace?"
+            ):
                 return False
-        if link.is_dir() and not link.is_symlink():
-            import shutil
-            shutil.rmtree(link)
-        else:
-            link.unlink()
+        link.unlink()
 
     link.symlink_to(skill)
     return True
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Install skills as symlinks.")
-    parser.add_argument("skills", nargs="*", help="Skill names to install (default: all)")
-    parser.add_argument("-f", "--force", action="store_true", help="Overwrite existing without asking")
+    parser.add_argument(
+        "skills",
+        nargs="*",
+        help="Skill names to install (default: all)",
+    )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="Replace existing symlinks without asking",
+    )
     args = parser.parse_args()
 
-    skills = find_skills(args.skills or None)
+    try:
+        skills = find_skills(args.skills or None)
+    except ValueError as error:
+        print(f"error: {error}", file=sys.stderr)
+        raise SystemExit(1) from error
     if not skills:
         print("No skills found.", file=sys.stderr)
         sys.exit(1)
@@ -78,7 +75,8 @@ def main():
         status = "ok" if any(r[0] == "ok" for r in results) else "skipped"
         print(f"  {status}: {skill.name}")
 
-    print(f"\nInstalled {len(skills)} skill(s) to {', '.join(str(t) for t in TARGETS)}")
+    targets = ", ".join(str(target) for target in TARGETS)
+    print(f"\nInstalled {len(skills)} skill(s) to {targets}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Python",
+      "skills": [
+        "python",
+        "django",
+        "django-ninja",
+        "pytest"
+      ],
+      "description": "Skills for Python application development and testing."
+    },
+    {
+      "title": "Writing",
+      "skills": [
+        "writing",
+        "draft",
+        "editor-content",
+        "editor-copy"
+      ],
+      "description": "Skills for drafting, reviewing, and editing prose."
+    },
+    {
+      "title": "Tools",
+      "skills": [
+        "docstore",
+        "screenshot-maker",
+        "sessions"
+      ],
+      "description": "Utilities for documentation and agent workflows."
+    },
+    {
+      "title": "Security",
+      "skills": [
+        "dependency-cooldown"
+      ],
+      "description": "Skills for safer dependency management."
+    }
+  ]
+}

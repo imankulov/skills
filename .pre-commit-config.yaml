@@ -1,9 +1,9 @@
 repos:
   - repo: local
     hooks:
-      - id: generate-marketplace
-        name: Generate Claude marketplace metadata
-        entry: python3 scripts/generate_marketplace.py
+      - id: generate-skill-metadata
+        name: Generate skill repository metadata
+        entry: uv run --script scripts/generate_marketplace.py
         language: system
         pass_filenames: false
         always_run: true

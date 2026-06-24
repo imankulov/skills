@@ -5,34 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-REPO_DIR = Path(__file__).resolve().parent.parent
-SKILLS_DIR = REPO_DIR / "skills"
-TARGETS = [
-    Path.home() / ".agents" / "skills",
-    Path.home() / ".claude" / "skills",
-]
-
-
-def find_skills(names: list[str] | None) -> list[Path]:
-    """Find requested skill directories, or discover all skills."""
-    if names:
-        skills = []
-        for name in names:
-            skill_dir = SKILLS_DIR / name
-            if not (skill_dir / "SKILL.md").exists():
-                print(
-                    f"error: '{name}' is not a skill (no SKILL.md found)",
-                    file=sys.stderr,
-                )
-                raise SystemExit(1)
-            skills.append(skill_dir)
-        return skills
-
-    return sorted(
-        directory
-        for directory in SKILLS_DIR.iterdir()
-        if directory.is_dir() and (directory / "SKILL.md").exists()
-    )
+from skill_paths import TARGETS, find_skills
 
 
 def uninstall_skill(skill: Path, target_dir: Path) -> str:
@@ -58,7 +31,11 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    skills = find_skills(args.skills or None)
+    try:
+        skills = find_skills(args.skills or None)
+    except ValueError as error:
+        print(f"error: {error}", file=sys.stderr)
+        raise SystemExit(1) from error
     if not skills:
         print("No skills found.", file=sys.stderr)
         raise SystemExit(1)
@@ -69,7 +46,8 @@ def main() -> None:
         removed += results.count("removed")
         print(f"  {skill.name}: {', '.join(results)}")
 
-    print(f"\nRemoved {removed} symlink(s) from {', '.join(str(t) for t in TARGETS)}")
+    targets = ", ".join(str(target) for target in TARGETS)
+    print(f"\nRemoved {removed} symlink(s) from {targets}")
 
 
 if __name__ == "__main__":

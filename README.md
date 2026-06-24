@@ -109,8 +109,9 @@ To add a skill:
 
 1. Create `skills/<name>/SKILL.md` with matching `name` and `description` frontmatter.
 2. Add any supporting files under `references/` or `scripts/`.
-3. Run `python scripts/generate_marketplace.py`.
-4. Run `pre-commit run --all-files`.
+3. Add repository metadata under the frontmatter's `metadata` key.
+4. Run `uv run scripts/generate_marketplace.py`.
+5. Run `pre-commit run --all-files`.
 
 Install [pre-commit](https://pre-commit.com/) and enable the repository hook before
 committing:
@@ -120,15 +121,22 @@ python -m pip install pre-commit
 pre-commit install
 ```
 
-The hook regenerates `.claude-plugin/marketplace.json` from each skill's frontmatter.
-The `skills/` directory remains the source of truth, and individual skill directories
+The hook regenerates `.claude-plugin/marketplace.json` and `skills.sh.json`. The
+`skills/` directory remains the source of truth, and individual skill directories
 don't contain separate plugin manifests. Run the generator after adding or renaming a
 skill:
 
 ```bash
-python scripts/generate_marketplace.py
-python scripts/generate_marketplace.py --check
+uv run scripts/generate_marketplace.py
+uv run scripts/generate_marketplace.py --check
 ```
+
+The generator uses PyYAML through uv inline script dependencies. Marketplace fields
+and skills.sh group membership live under each skill's `metadata` key. Group titles,
+descriptions, and display order live in `skills.sh.groups.yaml`. Metadata keys are
+flat, namespaced strings because the Agent Skills specification requires metadata
+values to be strings. Leave out `imankulov.skills-sh-group` to display a skill under
+“Other skills” on skills.sh.
 
 ### Marketplace design
 

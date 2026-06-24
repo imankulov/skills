@@ -10,6 +10,12 @@ description: |
   cooldowns" or Matteo Collina gist. Covers npm, pnpm, yarn, uv, and pip.
   Do NOT use for: lockfile pinning, SCA scanning (Snyk/Dependabot), Poetry (no native
   support), or audit tooling.
+metadata:
+  imankulov.skills-sh-group: Security
+  imankulov.skills-sh-order: "10"
+  imankulov.claude-display-name: Dependency Cooldown
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "dependency,cooldown,agent-skills"
 ---
 
 # Dependency Cooldown

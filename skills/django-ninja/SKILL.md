@@ -7,6 +7,12 @@ description: |
   configuration. Also use when creating new API modules or adding endpoints.
   Do NOT use for: Django views that return HTML (use django skill), FastAPI, DRF
   (Django REST Framework), or general Django patterns.
+metadata:
+  imankulov.skills-sh-group: Python
+  imankulov.skills-sh-order: "30"
+  imankulov.claude-display-name: Django Ninja
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "django,ninja,agent-skills"
 ---
 
 # Django Ninja API Endpoints

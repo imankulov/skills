@@ -2,6 +2,12 @@
 name: screenshot-maker
 description: Create beautiful, documentation-ready screenshots of web pages or specific page sections. Use when the user wants to capture a screenshot for docs, READMEs, blog posts, or marketing — especially when they mention framing, shadows, rounded corners, blurring sensitive info, or targeting a specific element/section. Also use when the user says "take a screenshot of", "capture this section", "screenshot for the docs", or wants polished visuals of a web UI.
 allowed-tools: Bash(agent-browser:*), Bash(npx agent-browser:*), Bash(magick:*), Bash(magick), Bash(python:*)
+metadata:
+  imankulov.skills-sh-group: Tools
+  imankulov.skills-sh-order: "20"
+  imankulov.claude-display-name: Screenshot Maker
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "screenshot,maker,agent-skills"
 ---
 
 # Screenshot Maker

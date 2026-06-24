@@ -8,6 +8,12 @@ description: |
   to organize modules, or choosing between dicts vs Pydantic models.
   Do NOT use for: Django-specific patterns (use django skill), test files (use pytest
   skill), frontend code, or shell scripts.
+metadata:
+  imankulov.skills-sh-group: Python
+  imankulov.skills-sh-order: "10"
+  imankulov.claude-display-name: Python
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "python,agent-skills"
 ---
 
 # Python Coding Standards

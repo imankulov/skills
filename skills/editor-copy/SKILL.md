@@ -7,6 +7,12 @@ description: |
   "tighten this up", or "do a copy pass".
   Do NOT use for: structural or engagement review (use the editor-content skill), or
   agent instruction files (AGENTS.md, SKILL.md, CLAUDE.md).
+metadata:
+  imankulov.skills-sh-group: Writing
+  imankulov.skills-sh-order: "40"
+  imankulov.claude-display-name: Editor Copy
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "editor,copy,agent-skills"
 ---
 
 # Editor: copy edit

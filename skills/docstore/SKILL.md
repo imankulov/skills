@@ -10,6 +10,12 @@ description: |
   modification in repos with collection-based directory structure, even if the user does
   not mention "docstore" explicitly.
   Do NOT use for: code-only repositories, package/module organization, or CI/CD config.
+metadata:
+  imankulov.skills-sh-group: Tools
+  imankulov.skills-sh-order: "10"
+  imankulov.claude-display-name: Docstore
+  imankulov.claude-category: development
+  imankulov.claude-keywords: "docstore,agent-skills"
 ---
 
 # Docstore: Document-Collection Data Organization
