@@ -93,6 +93,16 @@ python scripts/install.py django pytest
 python scripts/install.py -f
 ```
 
+Remove selected skills or all skills installed from this checkout:
+
+```bash
+python scripts/uninstall.py django pytest
+python scripts/uninstall.py
+```
+
+The uninstaller removes only symlinks that point to this repository. It leaves copied
+skills, regular directories, and symlinks to other checkouts unchanged.
+
 ## Contributing
 
 To add a skill:
