@@ -18,6 +18,11 @@ skills/my-skill/
     └── helper.py
 ```
 
+Claude Code plugins are defined centrally in `.claude-plugin/marketplace.json`.
+Do not add `.claude-plugin/plugin.json` inside individual skill directories. The
+marketplace generator exposes each `skills/<name>` directory as a separate plugin
+while keeping `SKILL.md` as the source of truth.
+
 ## The Three-Tier Progressive Disclosure Model
 
 Skills load content in three tiers to conserve context window:
@@ -207,6 +212,25 @@ python scripts/install.py -f
 
 This creates symlinks in `~/.agents/skills/` and `~/.claude/skills/`, so updates
 to the repo are immediately reflected.
+
+## Marketplace metadata
+
+After adding, renaming, or removing a skill, regenerate the Claude Code marketplace:
+
+```bash
+python scripts/generate_marketplace.py
+```
+
+The generator reads each skill's `name` and `description` frontmatter and updates
+`.claude-plugin/marketplace.json`. It does not generate per-skill plugin manifests.
+
+Check generated metadata without changing files:
+
+```bash
+python scripts/generate_marketplace.py --check
+```
+
+The repository's pre-commit hook runs the generator automatically.
 
 ## Cross-Agent Compatibility
 

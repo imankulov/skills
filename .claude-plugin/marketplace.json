@@ -1,0 +1,333 @@
+{
+  "name": "imankulov-skills",
+  "owner": {
+    "name": "Roman Imankulov",
+    "email": "roman.imankulov@gmail.com",
+    "url": "https://github.com/imankulov"
+  },
+  "description": "Opinionated skills for Python, Django, writing, and software development.",
+  "plugins": [
+    {
+      "name": "dependency-cooldown",
+      "displayName": "Dependency Cooldown",
+      "source": "./",
+      "skills": [
+        "./skills/dependency-cooldown"
+      ],
+      "strict": false,
+      "description": "Configure a minimum release age (cooldown) on package managers so freshly published versions are not installed for N days — a cheap, high-leverage defense against supply chain attacks (npm shai-hulud, axios typosquats, malicious post-install hooks).",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/dependency-cooldown",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "dependency",
+        "cooldown",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "dependency",
+        "cooldown",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "django",
+      "displayName": "Django",
+      "source": "./",
+      "skills": [
+        "./skills/django"
+      ],
+      "strict": false,
+      "description": "Opinionated Django development patterns for well-structured, maintainable projects.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/django",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "django",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "django",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "django-ninja",
+      "displayName": "Django Ninja",
+      "source": "./",
+      "skills": [
+        "./skills/django-ninja"
+      ],
+      "strict": false,
+      "description": "Django Ninja API endpoint patterns including routers, authentication tiers, typed requests, and Pydantic input/output models.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/django-ninja",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "django",
+        "ninja",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "django",
+        "ninja",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "docstore",
+      "displayName": "Docstore",
+      "source": "./",
+      "skills": [
+        "./skills/docstore"
+      ],
+      "strict": false,
+      "description": "Document-collection data organization for semi-structured repositories.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/docstore",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "docstore",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "docstore",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "draft",
+      "displayName": "Draft",
+      "source": "./",
+      "skills": [
+        "./skills/draft"
+      ],
+      "strict": false,
+      "description": "Draft text intended for humans: Slack messages, emails, proposals, summaries, architecture docs, product briefs, or any prose the user wants to review and edit before sharing.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/draft",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "draft",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "draft",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "editor-content",
+      "displayName": "Editor Content",
+      "source": "./",
+      "skills": [
+        "./skills/editor-content"
+      ],
+      "strict": false,
+      "description": "Review written content for engagement and clarity from a reader's perspective.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/editor-content",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "editor",
+        "content",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "editor",
+        "content",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "editor-copy",
+      "displayName": "Editor Copy",
+      "source": "./",
+      "skills": [
+        "./skills/editor-copy"
+      ],
+      "strict": false,
+      "description": "Copy-edit written content: fix grammar, style, and phrasing errors directly in the file.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/editor-copy",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "editor",
+        "copy",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "editor",
+        "copy",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "pytest",
+      "displayName": "Pytest",
+      "source": "./",
+      "skills": [
+        "./skills/pytest"
+      ],
+      "strict": false,
+      "description": "Pytest testing standards emphasizing the AAA pattern, fixtures, and parametrize.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/pytest",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "pytest",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "pytest",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "python",
+      "displayName": "Python",
+      "source": "./",
+      "skills": [
+        "./skills/python"
+      ],
+      "strict": false,
+      "description": "Opinionated Python coding standards for clean, type-safe code.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/python",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "python",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "python",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "screenshot-maker",
+      "displayName": "Screenshot Maker",
+      "source": "./",
+      "skills": [
+        "./skills/screenshot-maker"
+      ],
+      "strict": false,
+      "description": "Create beautiful, documentation-ready screenshots of web pages or specific page sections.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/screenshot-maker",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "screenshot",
+        "maker",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "screenshot",
+        "maker",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "sessions",
+      "displayName": "Sessions",
+      "source": "./",
+      "skills": [
+        "./skills/sessions"
+      ],
+      "strict": false,
+      "description": "List past Claude Code sessions for the current project.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/sessions",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "sessions",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "sessions",
+        "agent-skills"
+      ]
+    },
+    {
+      "name": "writing",
+      "displayName": "Writing",
+      "source": "./",
+      "skills": [
+        "./skills/writing"
+      ],
+      "strict": false,
+      "description": "Guidelines for clear, human-sounding prose.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/writing",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "writing",
+        "agent-skills"
+      ],
+      "category": "development",
+      "tags": [
+        "writing",
+        "agent-skills"
+      ]
+    }
+  ]
+}
