@@ -29,6 +29,7 @@ installation.
 | Writing | [draft](skills/draft/) | Draft human-facing text in a temporary file for review |
 | Writing | [editor-content](skills/editor-content/) | Review prose for engagement, clarity, structure, and AI writing patterns |
 | Writing | [editor-copy](skills/editor-copy/) | Apply grammar, style, and phrasing fixes without changing the content's substance |
+| Writing | [editor-pipeline](skills/editor-pipeline/) | Run a full editorial pass: applied content edit followed by a copy edit |
 | Tools | [docstore](skills/docstore/) | Organize semi-structured document repositories into predictable collections |
 | Tools | [screenshot-maker](skills/screenshot-maker/) | Produce framed documentation screenshots with targeting and redaction controls |
 | Tools | [sessions](skills/sessions/) | Find and inspect past Claude Code sessions for the current project |
