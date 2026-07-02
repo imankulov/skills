@@ -38,6 +38,13 @@
         "dependency-cooldown"
       ],
       "description": "Skills for safer dependency management."
+    },
+    {
+      "title": "Research",
+      "skills": [
+        "deep-research-report"
+      ],
+      "description": "Skills for investigations that produce durable reports."
     }
   ]
 }

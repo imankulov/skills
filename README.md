@@ -30,6 +30,7 @@ installation.
 | Writing | [editor-content](skills/editor-content/) | Review prose for engagement, clarity, structure, and AI writing patterns |
 | Writing | [editor-copy](skills/editor-copy/) | Apply grammar, style, and phrasing fixes without changing the content's substance |
 | Writing | [editor-pipeline](skills/editor-pipeline/) | Run a full editorial pass: applied content edit followed by a copy edit |
+| Research | [deep-research-report](skills/deep-research-report/) | Investigate a set of questions and publish a durable multi-page report with charts, raw data, and an adversarial review |
 | Tools | [docstore](skills/docstore/) | Organize semi-structured document repositories into predictable collections |
 | Tools | [screenshot-maker](skills/screenshot-maker/) | Produce framed documentation screenshots with targeting and redaction controls |
 | Tools | [sessions](skills/sessions/) | Find and inspect past Claude Code sessions for the current project |

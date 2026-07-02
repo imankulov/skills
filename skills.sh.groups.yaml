@@ -7,3 +7,5 @@ groups:
     description: Utilities for documentation and agent workflows.
   - title: Security
     description: Skills for safer dependency management.
+  - title: Research
+    description: Skills for investigations that produce durable reports.
