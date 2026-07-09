@@ -210,8 +210,10 @@ first letter:
 
 For detailed patterns on specific topics, load these as needed:
 
-- [Data structures](references/data-structures.md) — Pydantic vs dicts, enums, TypedDict
+- [Data structures](references/data-structures.md) — Pydantic vs dicts, enums, interfaces, TypedDict
 - [Module organization](references/module-organization.md) — types.py, const.py placement rules
+- [Logical grouping](references/logical-grouping.md) — keeping fields, constants, and steps grouped by concern
+- [Parallel symmetry](references/parallel-symmetry.md) — naming and shape when two systems process the same input
 - [URL parsing](references/url-parsing.md) — furl for all URL manipulation
 
 ## Verification
@@ -230,3 +232,5 @@ After writing Python code, verify:
 - [ ] No `typing.Union`, `typing.Optional`, `typing.List`, `typing.Dict` imports
 - [ ] Class abbreviations use CamelCase (JsonParser, not JSONParser)
 - [ ] Helper functions are prefixed with underscore
+- [ ] Fields, constants, and processing steps are grouped by concern, in the same order everywhere
+- [ ] Systems that process the same input in parallel share prefixes, guards, and data shapes

@@ -44,6 +44,40 @@ class UserRole(StrEnum):
     USER = auto()
 ```
 
+## Interfaces
+
+Prefer an explicit `abc.ABC` base class with abstract methods, named with an `I` prefix. Avoid
+`typing.Protocol` unless structural typing is specifically required — an ABC makes subclasses declare
+the interface they implement, so the relationship is visible at the definition site.
+
+```python
+from abc import ABC, abstractmethod
+
+
+class ICacheCodec[T](ABC):
+    """Encode and decode one cache payload type."""
+
+    identity: str
+
+    @abstractmethod
+    def encode(self, value: T) -> bytes:
+        """Encode a value for storage."""
+
+    @abstractmethod
+    def decode(self, payload: bytes) -> T:
+        """Decode a stored payload."""
+
+
+class Utf8Codec(ICacheCodec[str]):
+    identity = "utf-8"
+
+    def encode(self, value: str) -> bytes:
+        return value.encode("utf-8")
+
+    def decode(self, payload: bytes) -> str:
+        return payload.decode("utf-8")
+```
+
 ## Anti-Patterns
 
 | Avoid | Why | Instead |
@@ -53,5 +87,6 @@ class UserRole(StrEnum):
 | String literals for fixed sets | Typos, no completion | Enums |
 | Inline choice tuples in Django models | Can't reference values, no methods | TextChoices class |
 | TypedDict for internal code | Less validation than Pydantic | Pydantic models |
+| `typing.Protocol` for a normal interface | Implementers never declare intent | `abc.ABC` with an `I` prefix |
 
 Use `TypedDict` only when interfacing with external libraries that require dict types.
