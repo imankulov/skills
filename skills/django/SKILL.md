@@ -50,6 +50,57 @@ avoids circular imports and makes task scheduling explicit at the call site.
 | Task named same as service function | Import collision, forces `as` alias | Suffix with `_task` |
 | `from myapp.services import execute_report as _execute` | Obscures the real name | Name the task `execute_report_task` |
 
+### Schedule helpers
+
+When several entry points need to create a pending record and schedule a task, extract a `schedule_*`
+function into `tasks.py`. This is the one exception to "no logic in tasks.py": the function's single
+responsibility is coupling record creation with task scheduling.
+
+```python
+# tasks.py
+def schedule_refresh_all(user: User) -> RefreshOperation:
+    """Create the pending record and schedule the task."""
+    operation = create_pending_refresh_operation(user)
+    refresh_all_task.delay(operation.id)
+    return operation
+```
+
+Entry points call `schedule_refresh_all()` rather than duplicating the create-then-delay pattern.
+
+## Cross-App Signals
+
+When one app needs to react to events in another, use custom Django signals rather than direct imports
+or model signals (`post_save` and friends).
+
+- Define the signal in the emitting app's `signals.py`.
+- Emit it from a service function, not from `Model.save()`. This gives control over when the signal
+  fires and what data it carries.
+- Define receivers in the listening app's `signals.py`, registered via `AppConfig.ready()`.
+
+```python
+# emitting app: accounts/signals.py
+from django.dispatch import Signal
+websites_updated = Signal()
+
+# emitting app: accounts/services.py
+websites_updated.send(sender=refresh_all, user=user, added=added)
+
+# listening app: filtering/signals.py
+from django.dispatch import receiver
+from accounts.signals import websites_updated
+
+@receiver(websites_updated)
+def on_websites_updated(sender, user, added, **kwargs):
+    ...
+
+# listening app: filtering/apps.py
+class FilteringConfig(AppConfig):
+    def ready(self) -> None:
+        import_module("filtering.signals")
+```
+
+Dependencies stay one-way: the listening app imports from the emitting app, never the reverse.
+
 ## Component References
 
 For detailed patterns on specific Django components, load these references as needed:
@@ -65,4 +116,6 @@ After writing Django code, verify:
 
 - [ ] Celery tasks are named `<service_function>_task`
 - [ ] Tasks are scheduled from entry points, not services
+- [ ] Repeated create-then-schedule logic is extracted into a `schedule_*` helper in tasks.py
+- [ ] Cross-app reactions use custom signals emitted from services, not `post_save`
 - [ ] Admin actions call service functions for mutations

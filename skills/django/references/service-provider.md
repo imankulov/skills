@@ -131,6 +131,24 @@ def test_smtp_sends_email(smtp_sender):
     # Assert — check external system or mock SMTP server
 ```
 
+## Runtime Infrastructure Seams
+
+Apply the same explicit-provider approach to runtime infrastructure that affects test behavior —
+executors, queues, clocks, HTTP clients. Ask a factory for the configured implementation instead of
+constructing a concurrency primitive directly:
+
+```python
+from myapp.utils.concurrent_utils import get_executor
+
+with get_executor() as executor:
+    futures = [executor.submit(fetch_report, report) for report in reports]
+```
+
+With `CONCURRENT_EXECUTOR=mock` in `.env.test`, threaded code runs synchronously and tests stay
+deterministic. Hard-coding `ThreadPoolExecutor()` forces tests to monkeypatch internals, or to reach for
+`transactional_db` to work around rows created inside the test transaction being invisible to worker
+threads.
+
 ## Checklist
 
 - [ ] Abstract interface with `from_config()` classmethod
@@ -140,3 +158,4 @@ def test_smtp_sends_email(smtp_sender):
 - [ ] Config defaults to `"mock"`
 - [ ] `.env.test` uses mock provider
 - [ ] E2E tests marked with `@pytest.mark.e2e`
+- [ ] Executors, clocks, and other runtime seams come from a factory, not constructed inline
