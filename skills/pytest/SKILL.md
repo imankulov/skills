@@ -180,6 +180,29 @@ assert data["totalValue"]["numericValue"] == 200
 assert data["pages"][0]["pagePath"] == "https://example.com/page2"
 ```
 
+## Regression Tests
+
+Reproduce a reported bug at the closest stable public boundary. A regression test
+should use the request shape, input normalization, and output that failed, rather than
+only testing a newly added helper or asserting that one argument was forwarded.
+
+For integrations, avoid a live third-party call when the generated provider request is
+the behavior under test. Capture the request at the configured mock/client boundary,
+then assert the exact filters, normalized identifiers, or cache inputs that caused the
+bug. Keep a focused unit test for complicated helpers, but do not use it as a substitute
+for the boundary regression.
+
+## Cache Identity Tests
+
+When behavior is cached, list every input that can change the result. Each input must
+either appear in the cache key or resolve to an identity that does, such as a selected
+property ID. Add a test proving that two semantically different requests do not share a
+cache entry, especially for tenant, locale, scope, filter, permission, and date inputs.
+
+Do not add redundant key parts when a stronger resolved identity already separates the
+results. Document that dependency in the test so a later change to resolution does not
+silently invalidate the assumption.
+
 ## E2E Tests
 
 The `@pytest.mark.e2e` marker is for tests that someone running `pytest` locally would
@@ -229,3 +252,6 @@ After writing tests, verify:
 - [ ] Tests that hit external services, require paid/live resources, drive a browser, or are slow/flaky are marked with `@pytest.mark.e2e` (self-contained tests with local subprocesses or in-process servers don't need the marker)
 - [ ] No test classes — only flat functions
 - [ ] Database tests either use db-providing fixtures or `@pytest.mark.django_db`
+- [ ] Regression tests reproduce the reported input at the closest stable boundary
+- [ ] Cache tests prove semantically different requests cannot collide, or document
+      the resolved identity that already separates them
