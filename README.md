@@ -22,7 +22,7 @@ installation.
 | Category | Skill | Description |
 |----------|-------|-------------|
 | Python | [python](skills/python/) | Structure type-safe Python applications with layered architecture and explicit data models |
-| Python | [django](skills/django/) | Build maintainable Django models, views, admin tools, tasks, and service integrations |
+| Python | [django](skills/django/) | Build maintainable Django models, migrations, views, admin tools, tasks, and service integrations |
 | Python | [django-ninja](skills/django-ninja/) | Create typed Django Ninja APIs with consistent routing and authentication |
 | Python | [pytest](skills/pytest/) | Write flat, readable pytest tests using AAA, fixtures, and parametrization |
 | Writing | [writing](skills/writing/) | Write direct, human-sounding prose without common AI patterns |

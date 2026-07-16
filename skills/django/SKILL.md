@@ -2,8 +2,8 @@
 name: django
 description: |
   Opinionated Django development patterns for well-structured, maintainable projects.
-  Use when writing Django models, views, admin configuration, Celery tasks, or
-  external service integrations.
+  Use when writing Django models, migrations, views, admin configuration, Celery
+  tasks, or external service integrations.
   Also use when reviewing or refactoring Django code or creating new Django apps.
   Do NOT use for: Django Ninja API endpoints (use django-ninja skill), FastAPI, Flask,
   general Python (use python skill), test files (use pytest skill), or frontend code.
@@ -106,6 +106,8 @@ Dependencies stay one-way: the listening app imports from the emitting app, neve
 For detailed patterns on specific Django components, load these references as needed:
 
 - [Model standards](references/models.md) — base classes, EnumField, SchemaField, Meta
+- [Migrations](references/migrations.md) — schema and data migration ordering,
+  historical models, reversibility, and migration tests
 - [Views](references/views.md) — Django view functions, URL configuration
 - [Admin](references/admin.md) — list_display, search, filters, @admin.display
 - [Service provider pattern](references/service-provider.md) — external service integrations with registry + factory
@@ -119,3 +121,5 @@ After writing Django code, verify:
 - [ ] Repeated create-then-schedule logic is extracted into a `schedule_*` helper in tasks.py
 - [ ] Cross-app reactions use custom signals emitted from services, not `post_save`
 - [ ] Admin actions call service functions for mutations
+- [ ] Persisted-field replacements include a data migration that preserves existing
+      values, plus a migration test when loss would be user-visible
