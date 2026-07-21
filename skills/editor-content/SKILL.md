@@ -29,6 +29,25 @@ The arguments may name the file(s) to review and/or specify the mode (e.g. "revi
 and fix x.md", "apply"). If no file is given, or not immediately obvious from previous
 discussion or context, ask which file or text to review.
 
+## Scope: when a content pass is needed
+
+If the file is tracked in git, assume the committed version (HEAD) is already clean.
+Run `git diff HEAD -- <file>` first:
+
+- **Diff is empty, file untracked, or the user asks for a full review** — review the
+  whole file as described below.
+- **Changes are minor** (typo fixes, small phrasing tweaks, a few lines that don't
+  affect structure, flow, or the document's argument) — say that the changes are too
+  minor to need a content pass and stop. Don't review the rest of the file.
+- **Changes are substantial** (new or rewritten sections, reordered structure, changed
+  claims) — read the whole file for context, since structure and flow can't be judged
+  from a diff, but focus your findings on the changed sections and the parts they
+  affect (transitions into and out of them, the title, the summary). Don't re-litigate
+  untouched sections the committed version already got right.
+
+If the file is already in context and unchanged since, work from context instead of
+re-reading it.
+
 ## What to look for
 
 - **Engagement drops** — sections that feel flat, repetitive, or drag.

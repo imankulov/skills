@@ -32,3 +32,9 @@ If no file is given and it is not obvious from context, ask which one before sta
 
 Let the first pass finish before the second, so the copy edit runs on the restructured
 text. Then give one combined summary, keeping each skill's own reporting.
+
+Both skills scope their work to the uncommitted diff when the file is tracked in git
+(they treat the committed version as already clean). That carries through here: if
+editor-content decides the changes are too minor to need a content pass, skip straight
+to the copy pass. If the user asks for a full pass, pass that instruction to both
+skills.

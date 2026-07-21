@@ -23,10 +23,28 @@ The file(s) to copy-edit: $ARGUMENTS
 
 If no file is given, or not immediately obvious from previous discussion or context, ask which file or text to edit.
 
+## Scope: what to edit
+
+If the file is tracked in git, assume the committed version (HEAD) is already clean.
+Run `git diff HEAD -- <file>` and copy-edit only the changed hunks, reading just
+enough surrounding lines to understand tone and to make Edit matches unique. Do not
+re-edit unchanged text.
+
+Do a full pass instead when any of these hold:
+
+- the file is untracked or not in a git repository;
+- the diff against HEAD is empty (the user invoked the skill on a committed file, so
+  they want the whole thing checked);
+- the user asks for a full pass or says the committed version was never edited.
+
+If the file (or the relevant hunks) is already in context and unchanged since, work
+from context instead of re-reading. Don't re-read the file after your own edits to
+verify them.
+
 ## Process
 
 1. Invoke the `writing` skill via the Skill tool to load the prose guidelines.
-2. Read the entire file to understand context and tone.
+2. Determine the scope (changed hunks or full file) and read what it requires.
 3. Edit each issue in-place with the Edit tool.
 4. After all edits, give a brief summary of the changes.
 
