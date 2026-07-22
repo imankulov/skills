@@ -102,58 +102,52 @@ only its group membership and optional within-group order. Omit
 The body should follow this order:
 
 1. **Title and one-line summary** — what this skill teaches
-2. **Core patterns** — the essential knowledge (the part worth loading every time)
-3. **Anti-pattern tables** — compact wrong/right guidance
-4. **Reference pointers** — links to `references/*.md` for deep dives
-5. **Verification checklist** — `- [ ]` items for post-completion review
+2. **Core rules** — the essential knowledge (the part worth loading every time), each stated
+   once, with any trap warning inline next to the rule it guards (see the Trap Test)
+3. **Reference pointers** — links to `references/*.md` for deep dives
+
+Optionally close with a verification checklist, but only if it adds checks the rules don't.
 
 ## Writing Patterns
 
-### Anti-Pattern Tables
+Favor lean prompts. State each instruction once, positively — modern models follow a clear
+positive rule better than a wall of wrong/right pairs.
 
-Use three-column tables for compact wrong/right guidance:
+### State Each Rule Once
+
+State the rule as "do X" and stop:
 
 ```markdown
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| `CharField(max_length=255)` | PostgreSQL doesn't need it | `CharField()` |
-| Business logic in api.py | Can't reuse in CLI | Move to services.py |
+Use keyword-only arguments for functions with 4+ parameters.
 ```
 
-These are more token-efficient than paired correct/incorrect code blocks and easier to
-scan.
+If a line adds no information the rules above lack, cut it.
+
+### The Trap Test — when a "don't Y" earns its place
+
+Default to "do X." A "don't Y" earns a line only when it isn't a redundant mirror of one:
+
+- **Drop it** if "do X" already rules Y out — pick `EnumField` and `CharField(choices=)` is
+  off the table.
+- **Keep it** if Y stays reachable despite X — usually the framework's or model's *default*
+  is Y (`auto_now` silently skips on `.update()`; the reflex email opener "I hope this message
+  finds you well").
+- **Prefer it** when the negative is sharper — "don't add `max_length` to a Postgres
+  `CharField`" pinpoints the habit that "keep fields unconstrained" blurs.
+
+Keep the warning to one compact line beside the rule it guards.
 
 ### Examples
 
-Use paired correct/incorrect examples for patterns that need code context:
-
-```markdown
-Good:
-\```python
-def process(*, user_id: int, name: str) -> dict:
-    ...
-\```
-
-Bad:
-\```python
-def process(user_id, name):
-    ...
-\```
-```
-
-Keep examples minimal — show the pattern, not a full implementation.
+Add a code example only when the pattern can't be conveyed in one line of prose, or when
+the exact shape is the point. Show the positive form alone; reach for a paired bad example
+only when the trap test calls for showing the wrong path. Keep examples minimal — show the
+pattern, not a full implementation.
 
 ### Verification Checklists
 
-End skills with a concrete checklist the agent can run through:
-
-```markdown
-## Verification
-
-- [ ] All functions have type annotations
-- [ ] No business logic in entry points
-- [ ] Tests follow AAA pattern
-```
+A checklist earns its place only if its items add checks not already stated as rules. Delete
+one that restates the skill line-by-line.
 
 ### Reference Pointers
 
@@ -178,7 +172,8 @@ Focus on:
   args for 4+ parameters")
 - **Project conventions** that differ from framework defaults (e.g., "EnumField instead
   of CharField with choices")
-- **Anti-patterns** specific to your stack that Claude would otherwise generate
+- **Traps** specific to your stack that Claude would otherwise fall into — but only those a
+  positive rule can't make unreachable (see the Trap Test)
 
 Avoid:
 
