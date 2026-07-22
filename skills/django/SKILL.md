@@ -41,14 +41,9 @@ def execute_report_task(self, report_id: int) -> None:
 ```
 
 Schedule tasks from entry points (api.py, admin.py), not from service functions. This
-avoids circular imports and makes task scheduling explicit at the call site.
-
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| Scheduling tasks inside services.py | Circular imports, hidden side effects | Schedule from entry points after calling the service |
-| Business logic inside tasks.py | Can't reuse in other entry points | Call service functions from tasks |
-| Task named same as service function | Import collision, forces `as` alias | Suffix with `_task` |
-| `from myapp.services import execute_report as _execute` | Obscures the real name | Name the task `execute_report_task` |
+avoids circular imports and makes task scheduling explicit at the call site. Keep
+business logic in service functions so every entry point can reuse it; tasks only call
+services.
 
 ### Schedule helpers
 

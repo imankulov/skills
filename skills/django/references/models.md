@@ -104,17 +104,3 @@ class User(MutableModel):
 ## Model Meta
 
 Always use `db_table` to explicitly name the database table.
-
-## Anti-Patterns
-
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| `CharField(max_length=255)` everywhere | PostgreSQL doesn't need it; arbitrary limits cause bugs | `CharField()` without max_length |
-| `models.Model` as base | Loses audit timestamps | Use MutableModel or ImmutableModel |
-| CharField with `choices=` | No type safety, no IDE support | EnumField with TextChoices class |
-| JSONField for structured data | No validation, no schema | SchemaField with Pydantic model |
-| Inline choice tuples | Hard to reference, no methods | Separate TextChoices class |
-| `auto_now=True` / `auto_now_add=True` | Skips on `.update()`, makes field non-editable, surprising behavior | `default=timezone.now` + explicit `save()` override |
-| `DateTimeField(default=timezone.now())` | Evaluates once at import time, all rows get the same timestamp | `default=timezone.now` (no parentheses — pass the callable) |
-| Missing `__str__` | Admin and debugging are painful | Always implement `__str__` |
-| Missing `db_table` in Meta | Django generates ugly names | Explicit `db_table` |

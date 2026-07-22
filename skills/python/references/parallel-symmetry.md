@@ -27,19 +27,6 @@ def _keyword_search(query, corpus) -> ...: ...
 def _vector_search(query, corpus) -> ...: ...
 ```
 
-Bad — mixed naming breaks the parallel structure:
-
-```python
-class SearchRule(BaseModel): ...     # not prefixed
-class Match(BaseModel): ...          # not prefixed
-
-class SearchSummary(BaseModel):
-    rules: list[SearchRule]          # "rules" vs "vector_matches"
-    estimated_score: float           # "estimated" vs "vector"
-    vector_matches: list[Match]
-    vector_score: float
-```
-
 ## 2. Abstraction level
 
 Both paths handle their own edge cases, guards, and error handling internally. The caller sees them as
@@ -67,23 +54,6 @@ keyword_matches, keyword_score = _keyword_search(query, corpus)
 vector_matches, vector_score, vector_summary = _vector_search(query, corpus)
 ```
 
-Bad — one path is a clean call, the other leaks error handling into the caller. The asymmetry makes the
-vector path look fragile and the caller harder to read. Move the guard and the `try`/`except` inside
-`_vector_search`:
-
-```python
-keyword_matches, keyword_score = _keyword_search(query, corpus)
-
-vector_matches: list[VectorMatch] = []
-vector_score = 0.0
-vector_summary = ""
-if config.EMBEDDING_API_KEY:
-    try:
-        vector_matches, vector_score, vector_summary = _vector_search(query, corpus)
-    except Exception as e:
-        logger.warning("Vector search failed: {}", e)
-```
-
 ## 3. Data shapes
 
 Parallel types should share the same structure where possible. When the same concept exists in both
@@ -101,21 +71,5 @@ class VectorMatch(BaseModel):
     value: str
     confidence: Confidence
     reasoning: str              # vector-specific addition
-    document_count: int
-```
-
-Bad — different shapes for the same concept make merging and comparison harder:
-
-```python
-class SearchRule(BaseModel):
-    field: str
-    values: list[str]           # grouped
-    confidence: RuleConfidence
-
-class Match(BaseModel):
-    field: str
-    value: str                  # individual
-    confidence: float           # different type
-    reasoning: str
     document_count: int
 ```

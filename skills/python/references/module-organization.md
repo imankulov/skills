@@ -95,12 +95,3 @@ myapp/
 ├── tasks.py             # Celery tasks
 └── tests/
 ```
-
-## Anti-Patterns
-
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| Pydantic models in services.py | Hard to find, circular import risk | Move to types.py |
-| Enums in api.py | Can't reuse in services or tasks | Move to types.py |
-| All types in one global file | Too large, hard to navigate | Per-module types.py |
-| Constants in const.py that import from models/services | Creates circular deps | const.py must have zero internal imports |

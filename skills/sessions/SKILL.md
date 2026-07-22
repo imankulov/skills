@@ -31,9 +31,8 @@ python <skill-path>/scripts/list_sessions.py [project-dir] [--all] [--json]
 - `--all`: show every session, not just the last 20
 - `--json`: output as JSON instead of a markdown table
 
-Present the script's output to the user verbatim — do NOT reformat, summarize, or
-truncate it. In particular, keep session IDs as full UUIDs (e.g.
-`be3ec2d9-1786-4e61-912c-4c4dd363ed8c`). Truncated IDs don't work with `--resume`.
+Present the script's output verbatim — don't summarize the table or drop rows, and
+keep session IDs as full UUIDs, since truncated IDs don't work with `--resume`.
 
 After the table, remind them how to resume:
 
@@ -48,4 +47,3 @@ After the table, remind them how to resume:
 
 - **Turns** — `5u/8a` means 5 user messages, 8 assistant messages
 - **Size** — JSONL file size; larger sessions had more tool use and context
-- **Session ID** — full UUID, ready to use with `claude --resume <id>`

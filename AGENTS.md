@@ -174,6 +174,9 @@ Focus on:
   of CharField with choices")
 - **Traps** specific to your stack that Claude would otherwise fall into — but only those a
   positive rule can't make unreachable (see the Trap Test)
+- **Hard facts** an agent can't derive and tends to hallucinate — an exact config key, value,
+  unit, flag, import path, or class name. Spell each one out (a made-up yarn config key or a
+  wrong unit is what the model invents when the real one isn't written down)
 
 Avoid:
 

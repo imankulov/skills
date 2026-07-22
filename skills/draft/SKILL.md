@@ -49,15 +49,8 @@ Ask yourself (don't ask the user unless genuinely ambiguous):
 
 ### 4. Save to a temp file and open in VS Code
 
-Create a markdown file with a descriptive slug:
-
-```
-/tmp/draft-<descriptive-slug>.md
-```
-
-Examples: `draft-reply-to-alex.md`, `draft-standup-update.md`, `draft-auth-redesign-proposal.md`.
-
-Then open it:
+Create a markdown file at `/tmp/draft-<descriptive-slug>.md` (e.g.
+`draft-auth-redesign-proposal.md`), then open it:
 
 ```bash
 code /tmp/draft-<descriptive-slug>.md
@@ -65,10 +58,10 @@ code /tmp/draft-<descriptive-slug>.md
 
 Tell the user the full path so they can find and edit it.
 
-## What NOT to do
+## Conventions
 
-- Don't add "Let me know if you have any questions!" or similar filler closings unless
-  the message genuinely asks a question
-- Don't over-format with bullets when a paragraph reads better
-- Don't start with "I hope this message finds you well" or "Just wanted to reach out"
-- Don't pad short messages to make them longer — short is good
+- Open with the substance. Never start with "I hope this message finds you well" or
+  "Just wanted to reach out."
+- Close only when the message genuinely asks a question. Don't tack on "Let me know if
+  you have any questions!" or similar filler sign-offs.
+- Use paragraphs by default; reach for bullets only when a list reads better.

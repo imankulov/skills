@@ -83,13 +83,13 @@ These words are statistically overused in AI-generated text and signal inauthent
 
 ### Use Active Voice
 
-"The team shipped the feature" beats "the feature was shipped by the team." Active
-voice is shorter, clearer, and more direct. Passive voice hides the actor and weakens
-the sentence. Use passive only when the actor is unknown or genuinely irrelevant.
+Prefer "the team shipped the feature" over "the feature was shipped by the team." Use
+passive only when the actor is unknown or genuinely irrelevant.
 
 ### Put Statements in Positive Form
 
-Say what something is, not what it isn't.
+Say what something is, not what it isn't. If you write "not X", check whether a direct
+word exists.
 
 | Avoid | Use instead |
 |-------|-------------|
@@ -99,12 +99,7 @@ Say what something is, not what it isn't.
 | "did not have much confidence in" | "distrusted" |
 | "not unless" | "only if" |
 
-"Not" should signal a negative, not be a crutch for vague language. If you write "not
-X", check whether a direct word exists.
-
 ### Omit Needless Words
-
-Every word should serve a purpose. Cut filler.
 
 | Cut | To |
 |-----|----|
@@ -115,43 +110,31 @@ Every word should serve a purpose. Cut filler.
 | "it is important to note that" | drop it |
 | "there is/are ... that" | rephrase directly |
 
-Bad: "There are many features that make our product useful."
-Good: "Several features make the product useful." (Or better: name them.)
-
 ### One Paragraph, One Topic
 
-Each paragraph should develop a single idea. Start with the topic sentence so readers
-can skim. If a paragraph covers two ideas, split it.
+Develop a single idea per paragraph, and start with the topic sentence so readers can
+skim.
 
 ### Parallel Construction
 
-Express co-ordinate ideas in the same grammatical form.
-
-Bad: "The system handles logging, is responsible for alerting, and monitoring is also
-included."
-Good: "The system handles logging, alerting, and monitoring."
+Express co-ordinate ideas in the same grammatical form: "The system handles logging,
+alerting, and monitoring," not "handles logging, is responsible for alerting, and
+monitoring is also included."
 
 ### Keep Related Words Together
 
 Place subject near verb, verb near object. Don't strand modifiers far from the words
 they modify.
 
-Bad: "The dashboard, after you configure the filters and select a date range, shows
-trends."
-Good: "After you configure filters and select a date range, the dashboard shows
-trends."
-
 ### Place the Emphasis at the End
 
-The most important word in a sentence belongs at the end, where it lands with weight.
-
-Bad: "Humanity has barely begun to explore the possibilities of this technology."
-Good: "This technology opens possibilities humanity has barely begun to explore."
+Put the most important word where it lands with weight: "This technology opens
+possibilities humanity has barely begun to explore," not "Humanity has barely begun to
+explore the possibilities of this technology."
 
 ### Keep to One Tense in Summaries
 
-When summarizing events or changes, pick a tense and stick with it. Don't drift between
-past and present.
+When summarizing events or changes, pick one tense; don't drift between past and present.
 
 ## Sentence Structure
 
@@ -168,73 +151,48 @@ past and present.
 | "features" | "has", "includes" |
 | "offers" | "has", "gives you" |
 
-Bad: "Our product serves as a comprehensive solution for understanding visitor
-behavior."
-Good: "See how visitors use your site."
-
 ### Avoid Negative Parallelisms
 
-These are AI tells:
-
-- "Not only X, but Y"
-- "It's not just about X, it's about Y"
-- "X isn't just Y — it's Z"
-
-Just make your point directly.
+Make your point directly instead of setting up a contrast: "Not only X, but Y"; "It's
+not just about X, it's about Y"; "X isn't just Y, it's Z".
 
 ### Avoid the Rule of Three
 
-AI overuses triplets: "fast, reliable, and secure" or "track, analyze, and optimize."
-Use one or two descriptors. If you need three, make sure each adds distinct meaning.
-
-Bad: "Track, analyze, and optimize your website's performance."
-Good: "See what's working on your site."
+AI overuses triplets ("fast, reliable, and secure"; "track, analyze, and optimize").
+Use one or two descriptors, and if you need three, make sure each adds distinct meaning.
 
 ### Avoid False Ranges
 
-Don't use "from X to Y" when X and Y aren't endpoints of a scale.
-
-Bad: "From small startups to enterprise companies, from marketing to engineering
-teams..."
-Good: "Teams of all sizes use it."
+Don't use "from X to Y" when X and Y aren't endpoints of a scale ("from small startups
+to enterprise companies, from marketing to engineering teams").
 
 ### Avoid Empty "-ing" Phrases
 
-AI inserts present participles to fake depth: "highlighting its importance,"
-"emphasizing the need for," "ensuring reliability," "reflecting broader trends,"
-"symbolizing its ongoing commitment." These add words without adding meaning. State the
-point directly instead.
-
-Bad: "The update improves load times, highlighting the team's commitment to
-performance."
-Good: "The update improves load times."
+Present participles tacked on to fake depth add words without meaning: "highlighting its
+importance," "emphasizing the need for," "ensuring reliability," "reflecting broader
+trends," "symbolizing its ongoing commitment." Drop them and state the point.
 
 ### Avoid Elegant Variation
 
-AI avoids repeating words by cycling through synonyms: "the platform," "the tool," "the
-solution," "the system" — all for the same thing. Repeating a word is better than
-forcing an unnatural synonym. If "dashboard" is the right word, use "dashboard" three
-times.
+Don't cycle through synonyms for the same thing ("the platform," "the tool," "the
+solution," "the system"). Repeating the right word beats forcing an unnatural synonym.
 
 ### Avoid Vague Attributions
 
-Don't attribute claims to unnamed authorities: "Experts argue," "Industry reports
-suggest," "Observers have noted," "Some critics argue." Either name the source or drop
-the attribution.
+Don't attribute claims to unnamed authorities ("Experts argue," "Industry reports
+suggest," "Observers have noted," "Some critics argue"). Name the source or drop it.
 
 ### Avoid the "Despite" Formula
 
-AI writes formulaic conclusions: "Despite its [positive qualities], [subject] faces
-challenges such as [list]." Either discuss the challenges concretely or skip them.
+Skip formulaic conclusions like "Despite its [positive qualities], [subject] faces
+challenges such as [list]." Discuss challenges concretely or leave them out.
 
 ## Formatting
 
 ### No Title Case in Headings
 
-Use sentence case for headings: capitalize the first word and proper nouns only.
-
-Bad: "Getting Started With Your Dashboard"
-Good: "Getting started with your dashboard"
+Use sentence case for headings: capitalize the first word and proper nouns only
+("Getting started with your dashboard").
 
 ### No Overuse of Bold
 
@@ -266,21 +224,10 @@ are overused in AI-generated text.
 ### Colons and Choppy Sentences
 
 When replacing em dashes, don't mechanically swap them for colons or split into short
-sentences. Both produce the same staccato feel. Instead, use conjunctions (because,
-where, while, since, and) to merge related ideas into one flowing sentence. Two short
-sentences separated by a period or joined by a colon often read better as one sentence
-with a conjunction.
-
-Bad: "You also get automatic tool discovery. The agent sees available tools and their
-schemas."
-Good: "You also get automatic tool discovery, where the agent sees available tools and
-their schemas."
-
-Bad: "A CLI script is the simplest option: the agent calls it via Bash."
-Good: "A CLI script is the simplest option, because the agent calls it via Bash."
-
-Don't overdo it. If a sentence is already long, a period is fine. The goal is natural
-flow, not run-on sentences.
+sentences; both produce the same staccato feel. Use conjunctions (because, where, while,
+since, and) to merge related ideas into one flowing sentence: "A CLI script is the
+simplest option, because the agent calls it via Bash," not "A CLI script is the simplest
+option: the agent calls it via Bash." If a sentence is already long, a period is fine.
 
 ## Email Subject Lines
 
@@ -310,10 +257,6 @@ Keep subject lines lowercase (except proper nouns) and conversational.
    what it does. Exception: in help text, "may", "usually", and "often" are fine
    when they set accurate expectations for behavior that depends on the user's data.
 
-Bad: "Our platform enables you to gain valuable insights that help you make data-driven
-decisions."
-Good: "See what's working on your site."
-
 ### Make Help Text Reader-Led
 
 For help pages and docs, connect the explanation to the reader's situation.
@@ -341,16 +284,5 @@ team:
 
 ## Quick Self-Check
 
-Before publishing:
-
-- [ ] Could a normal person have written this?
-- [ ] Does every sentence add information? Can I cut any words?
-- [ ] Did I use any words from the "avoid" list?
-- [ ] Would I say this out loud to a colleague?
-- [ ] Are there any triplets I can trim?
-- [ ] Is anything in bold that shouldn't be?
-- [ ] Any em dashes to remove?
-- [ ] Too many colons or choppy short sentences? Could conjunctions improve the flow?
-- [ ] Is the voice active? Any needless passive constructions?
-- [ ] Am I saying what something *is*, not what it *isn't*?
-- [ ] Do parallel ideas use the same grammatical form?
+Before publishing, read it aloud: could a colleague have said this, does every sentence
+add information, and did any words from the avoid lists slip through?

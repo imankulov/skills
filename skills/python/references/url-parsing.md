@@ -26,13 +26,4 @@ scheme = f.scheme    # https
 host = f.host        # example.com
 ```
 
-## Anti-Patterns
-
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| `f"{base}/v1/users?active=true"` | No escaping, breaks on special chars | `furl` |
-| `urllib.parse.urlparse` | Verbose, error-prone API | `furl` |
-| `urllib.parse.urlencode` | Manual assembly | `furl.args` |
-| Manual query string building | Encoding bugs | `furl.args["key"] = value` |
-
 Always validate URL schemes when parsing user-provided URLs.

@@ -20,7 +20,7 @@ metadata:
 # Editor: full pipeline
 
 Run two editing passes on the same file, in order. The editing criteria live in the
-other two skills; this one just chains them.
+other two skills.
 
 The file(s) to edit: $ARGUMENTS
 

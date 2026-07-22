@@ -43,8 +43,6 @@ options:
   - "I have specific preferences (colors, highlight, blur, etc.)"
 ```
 
-Skip questions when the user is already specific. "Screenshot the #pricing section with slate background and blur the API key" needs zero clarification — just do it.
-
 ## Core workflow
 
 ### 1. Navigate and set viewport
@@ -124,7 +122,7 @@ Options:
 - `--thickness <px>` — border width, border mode only (default: 3)
 - `--opacity <0-1>` — dim overlay darkness, spotlight mode only (default: 0.5)
 
-Run blur/highlight commands before `crop` — they modify the live page, and `crop` takes the screenshot.
+Run the hide, blur, and highlight commands before `crop` — they modify the live page, and `crop` takes the screenshot.
 
 ### 5. Frame with ImageMagick
 
@@ -161,35 +159,8 @@ Instead of `--bg-start` / `--bg-end`, use a preset:
 | `--preset ember` | #ff9a9e → #fecfef | Soft, friendly |
 | `--preset midnight` | #0f0c29 → #302b63 | Dark, dramatic |
 
-## Full example
-
-```bash
-# 1. Open page
-agent-browser open https://example.com/docs && agent-browser wait --load networkidle
-agent-browser set viewport 1280 900
-
-# 2. Hide chrome
-python <skill-path>/scripts/prepare.py hide-chrome
-
-# 3. Blur sensitive info
-python <skill-path>/scripts/prepare.py blur --selector ".api-key" --radius 6
-
-# 4. Highlight a feature
-python <skill-path>/scripts/prepare.py highlight --selector "#cta-button" --mode border
-
-# 5. Capture
-python <skill-path>/scripts/prepare.py crop --selector "#pricing-section" --output /tmp/raw.png
-
-# 6. Frame
-python <skill-path>/scripts/frame.py /tmp/raw.png /tmp/final.png --trim --preset slate
-```
-
 ## Tips
 
-- **Provide a CSS selector** when possible — right-click → Inspect → Copy selector. It eliminates guesswork and makes the whole process faster.
 - **Retina screenshots**: `agent-browser set viewport <W> <H> 2` gives 2x resolution at the same CSS layout size.
-- **Trimming**: `--trim` auto-removes whitespace borders from the raw screenshot.
-- **Resize for docs**: `--resize 800x` sets width to 800px (height scales proportionally).
-- **Transparent output**: `--no-bg` outputs just the card with shadow on transparent background.
 - **Consistency**: when capturing several screenshots for the same doc page, reuse the same preset and settings.
 - **Close browser when done**: `agent-browser close`.

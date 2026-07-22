@@ -48,22 +48,25 @@ units — the table below lists the **7-day value** for each.
 | uv        | `exclude-newer`        | duration | `"7 days"`  | uv 0.9.17         |
 | pip       | `uploaded-prior-to`    | ISO 8601 | `P7D`       | pip 26.1          |
 
-Before writing config, check the installed version with `<manager> --version`. If too
-old, offer to upgrade using the recipes in the **Upgrade Recipes** section below. Skip
-only if the user declines the upgrade.
+Before writing config, check the installed version with `<manager> --version`; if it's
+below the table's minimum, pause and offer the user an upgrade using the **Upgrade
+Recipes** section below.
 
 ## Recipes
 
 ### npm
 
 npm 11.10.0 is a late-2025 release; older npm rejects the key. If `npm --version`
-reports anything earlier, upgrade first with `npm install -g npm@latest`.
+reports anything earlier, pause and offer the user an upgrade with `npm install -g npm@latest`.
 
 User-level:
 ```bash
 npm config set min-release-age 7 --location=user
-# Verify: npm config get min-release-age
 ```
+
+Verify by reading the file (`grep min-release-age ~/.npmrc`): `npm config get
+min-release-age` may return `null` even when the value is set — a known display bug in
+npm 11.
 
 Project-level (`.npmrc` at repo root):
 ```
@@ -168,11 +171,6 @@ CONTRIBUTING file: `pip install --uploaded-prior-to "P7D" -r requirements.txt`.
 
 pip 26.0 only accepts absolute ISO timestamps; ISO 8601 durations require pip 26.1+.
 
-**Bootstrapping gotcha**: if a too-old pip is already running with this config, even
-`pip install -U pip` fails — the config is parsed before the install runs. Use
-`pip install --isolated -U pip` (or `PIP_CONFIG_FILE=/dev/null pip install -U pip`) to
-bypass the user config for that one invocation.
-
 For a one-off bypass on any install: `pip install --isolated foo` (ignores all config
 files entirely).
 
@@ -184,11 +182,9 @@ suggest migrating resolution to uv.
 
 ## Upgrade Recipes
 
-Always ask the user before upgrading — do not run these automatically. Upgrading a
-package manager is a meaningful change to their environment and may have side effects
-they need to be aware of. Present the recipe and ask for confirmation first.
-
-Use these when a tool's version is below the minimum required for cooldown support.
+Use these when a tool's version is below the minimum. Present the recipe and get
+confirmation before running it — upgrading a package manager changes the user's
+environment.
 
 ### npm
 
@@ -222,8 +218,7 @@ How to upgrade depends on how pnpm was installed. Check with `which pnpm`:
 
 ### pip (pyenv setups)
 
-The user-level `pip.conf` is read by **every** pip on the machine, so all pyenv pips
-must be at 26.1+ before writing the config. Upgrade them first:
+Upgrade every pyenv pip to 26.1+ before writing the config:
 
 ```bash
 # Upgrade pip in all pyenv environments
@@ -248,42 +243,16 @@ Then write the config only after all pips are confirmed at 26.1+.
    - Project: look for `package.json` (+ which lockfile), `pyproject.toml`,
      `requirements*.txt`, `.npmrc`, `.yarnrc.yml`, `pnpm-workspace.yaml`.
    - User: ask which the user actually uses, or apply to all installed ones.
-3. Verify each tool's version meets the minimum. If too old, offer to upgrade using the
-   Upgrade Recipes section. For pip/pyenv: upgrade all interpreters before writing the
-   config to avoid the bootstrap trap.
+3. Verify each tool's version meets the minimum; if too old, offer to upgrade using the
+   Upgrade Recipes section. For pip/pyenv, upgrade all interpreters before writing config
+   to avoid the bootstrap trap.
 4. Apply the 7-day value from the table. Use the CLI form (`config set`) when the
    manager supports it; otherwise edit the config file directly.
 5. For pnpm/yarn project-level, ask if the org has an internal package scope to add to
    the bypass list.
-6. Print one line per manager confirming what was changed and where.
-
-## Anti-patterns
-
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| Writing pnpm config to `package.json` | pnpm reads it only from `pnpm-workspace.yaml` | Use `pnpm-workspace.yaml` even for non-workspace repos |
-| `npmMinimalAgeGate: "7d"` in yarn | Suffix parsing bug — silently ignored | Pass minutes as a number: `10080` |
-| Setting the value without checking version | Older tools error or ignore unknown keys | Run `<tool> --version` first |
-| Skipping the org-scope bypass | Internal releases get gated, blocking deploys | Add `minimumReleaseAgeExclude` / `npmPreapprovedPackages` / `exclude-newer-package` |
-| Adding cooldown to Poetry config | No native support | Recommend safe-chain or uv migration |
-| Recommending pip project-level config | pip has no project config file | User-level only, or pass `--uploaded-prior-to` on each invocation |
-| Writing pip config before upgrading all pyenv pips | Too-old pip errors on every install; `pip install -U pip` also fails (bootstrap trap) | Upgrade all pyenv pips first; use `--isolated` to escape the trap if already set |
-
-## Verification
-
-- [ ] Tool version is at or above the minimum required for the config key
-- [ ] Value is in the manager's expected unit (minutes vs days vs duration string)
-- [ ] Project-level pnpm config is in `pnpm-workspace.yaml`, not `package.json`
-- [ ] Yarn value is a number, not a string with a suffix
-- [ ] Internal/org packages are listed in the bypass key (if applicable)
-- [ ] One line per manager reports the location and key that was changed
-- [ ] For each manager, the gate reads back via `<manager> config get <key>` (or by
-      inspecting the file for managers without a `config get` command) — this catches
-      silent failures like the yarn `"7d"` parsing bug, where the write "succeeds" but
-      the value is wrong
-- [ ] For npm specifically: `npm config get min-release-age` may return `null` even when
-      `~/.npmrc` has the value set (known display bug in npm 11). Verify by reading the
-      file directly: `cat ~/.npmrc | grep min-release-age`
+6. Read the value back with `<manager> config get <key>` (or inspect the file for
+   managers without that command) to catch silent write failures, then print one line
+   per manager confirming what changed and where.
 
 ## Sources
 

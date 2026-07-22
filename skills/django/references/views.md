@@ -47,15 +47,6 @@ def checkout(request: AuthenticatedHttpRequest):
     return HttpResponseRedirect(checkout_url)
 ```
 
-## Key Differences from API Endpoints
-
-| Aspect | Views | API Endpoints |
-|--------|-------|---------------|
-| Auth decorator | `@auth_required_redirect` | `auth=[require_user]` on router |
-| Response type | Django HTTP responses | Pydantic models / JSON |
-| Input handling | Forms or request data | Pydantic Input models |
-| Routing | `urls.py` with `path()` | Ninja router auto-registration |
-
 ## Testing
 
 ```python

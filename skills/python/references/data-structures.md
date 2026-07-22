@@ -78,15 +78,5 @@ class Utf8Codec(ICacheCodec[str]):
         return payload.decode("utf-8")
 ```
 
-## Anti-Patterns
-
-| Avoid | Why | Instead |
-|-------|-----|---------|
-| Raw dictionaries for structured data | No validation, no IDE support | Pydantic models |
-| Tuples for structured data | Positional access is error-prone | Pydantic models |
-| String literals for fixed sets | Typos, no completion | Enums |
-| Inline choice tuples in Django models | Can't reference values, no methods | TextChoices class |
-| TypedDict for internal code | Less validation than Pydantic | Pydantic models |
-| `typing.Protocol` for a normal interface | Implementers never declare intent | `abc.ABC` with an `I` prefix |
-
-Use `TypedDict` only when interfacing with external libraries that require dict types.
+Use `TypedDict` only when interfacing with external libraries that require dict types;
+prefer Pydantic models everywhere else, over raw dictionaries and tuples alike.

@@ -148,14 +148,3 @@ With `CONCURRENT_EXECUTOR=mock` in `.env.test`, threaded code runs synchronously
 deterministic. Hard-coding `ThreadPoolExecutor()` forces tests to monkeypatch internals, or to reach for
 `transactional_db` to work around rows created inside the test transaction being invisible to worker
 threads.
-
-## Checklist
-
-- [ ] Abstract interface with `from_config()` classmethod
-- [ ] Registry dict mapping provider names to classes
-- [ ] `@cache` on factory function
-- [ ] Mock implementation with `loguru.logger.debug()`
-- [ ] Config defaults to `"mock"`
-- [ ] `.env.test` uses mock provider
-- [ ] E2E tests marked with `@pytest.mark.e2e`
-- [ ] Executors, clocks, and other runtime seams come from a factory, not constructed inline

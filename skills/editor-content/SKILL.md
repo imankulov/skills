@@ -58,9 +58,7 @@ re-reading it.
   One or two items usually suffice. Flag every instance except ones that describe an
   actual structure (e.g. listing three real building blocks).
 - **Overexplaining** — sentences that spell out what the reader already knows from a
-  preceding sentence, an example, code, or basic context. If an example shows it, a
-  paragraph explaining it is redundant. If one sentence makes the point, a second
-  sentence restating it with an analogy is too much.
+  preceding sentence, an example, code, or basic context.
 - **Overselling setups** — "The trick that makes it work:", "Here's where it gets
   interesting:", "The key insight is:" and similar reveal-setups that promise a clever
   point before delivering it. These are AI tells. Just state the fact.
@@ -79,17 +77,13 @@ re-reading it.
   block, figure, callout, blockquote, table, or list. Only suggest elements that carry
   information, not decoration.
 
-Do not flag grammar or phrasing issues. That is the editor-copy skill's job.
+Do not flag grammar or phrasing issues — that is the editor-copy skill's job.
 
 ## Modes
 
-Pick the mode from how the user invoked the skill.
-
-- **Review (default)** — report issues, do not touch the file. Use this unless the user
-  clearly asked you to fix or apply changes.
-- **Apply** — fix the issues directly in the file, then report what you changed. Use
-  this when the user asks up front to apply, fix, address, or auto-improve the content
-  (e.g. "review and fix", "address all of them", "auto-improve this").
+Default to Review. Switch to Apply only when the user asks up front to apply, fix,
+address, or auto-improve the content (e.g. "review and fix", "address all of them",
+"auto-improve this").
 
 ## Output format
 

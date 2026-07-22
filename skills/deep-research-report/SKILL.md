@@ -20,9 +20,8 @@ metadata:
 
 # Deep research report
 
-Turn a question (or list of questions) into a multi-page report the team keeps. The
-report is a living artifact: committed next to the project, structured for follow-up,
-and honest about its own methodology.
+Turn a question (or list of questions) into a multi-page report the team keeps next
+to the project: structured for follow-up and honest about its own methodology.
 
 ## 1. Clarify before researching
 
@@ -30,8 +29,8 @@ Explore the environment first (project structure, prior docs on the topic, avail
 data sources), so your questions are informed rather than generic. Then interview the
 user before researching:
 
-- Ask specific questions grounded in what you just explored, with concrete options
-  and a recommended default, not open-ended prompts.
+- Ask specific questions grounded in what you just explored, each with concrete
+  options and a recommended default.
 - Pin down vague goals ("improve", "better", "worth it") until they name a measurable
   outcome or an explicit trade-off the user accepts.
 - One batched round; follow up only when an answer opens a real fork in the research.
@@ -92,7 +91,7 @@ Writing the pages:
 - Every recommendation names its evidence; every number says where it came from.
 - When reviewers or sources genuinely disagree and both views hold, keep both: state
   your position in the text and give the dissent an `!!! note "Alternative view"`
-  admonition. Don't silently discard either.
+  admonition.
 - State methodology limits where the reader needs them (sample size, who rated what,
   what the data can't show), not in a disclaimers appendix.
 
@@ -142,8 +141,7 @@ tasks. The report pages carry conclusions; this page carries the trail.
 **Raw data** — if the research generated data (benchmark runs, survey of records,
 scraped tables), commit the raw records to `docs/assets/` and the scripts that
 produced them to `scripts/`. Include subjective assessments (ratings, per-item notes)
-so the headline numbers are auditable. A report whose central evidence can't be
-re-examined is an opinion with charts.
+so the headline numbers are auditable.
 
 ## Done when
 

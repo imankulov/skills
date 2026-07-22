@@ -17,7 +17,7 @@ metadata:
 
 # Editor: copy edit
 
-Copy-edit the file as an expert editor. Apply the writing skill's guidelines.
+Copy-edit the file as an expert editor.
 
 The file(s) to copy-edit: $ARGUMENTS
 
@@ -38,8 +38,7 @@ Do a full pass instead when any of these hold:
 - the user asks for a full pass or says the committed version was never edited.
 
 If the file (or the relevant hunks) is already in context and unchanged since, work
-from context instead of re-reading. Don't re-read the file after your own edits to
-verify them.
+from context instead of re-reading.
 
 ## Process
 
@@ -52,6 +51,6 @@ verify them.
 
 - Fix glaring grammar and style errors, not stylistic preferences.
 - Prefer phrasings closest to the original.
-- Do not rewrite content, add information, or touch code blocks.
+- Limit edits to grammar and phrasing, without rewriting content, adding information, or touching code blocks.
 - Flag unclear meaning as a question rather than guessing.
 - If the writing is already good, say so.

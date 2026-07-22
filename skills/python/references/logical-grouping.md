@@ -43,16 +43,6 @@ summary = SearchSummary(
 )
 ```
 
-Bad — a shared field splits a logical group apart:
-
-```python
-class SearchSummary(BaseModel):
-    keyword_matches: list[KeywordMatch]
-    total_documents: int          # shared field breaks the keyword group apart
-    keyword_score: float
-    vector_matches: list[VectorMatch] = []
-```
-
 ## Function bodies
 
 The type defines shared → keyword → vector, so the function processes them in that order:
@@ -73,16 +63,6 @@ def build_summary(query: str) -> SearchSummary:
     return SearchSummary(...)
 ```
 
-Bad — the processing order doesn't match the type definition, so the reader has to jump around:
-
-```python
-def build_summary(query: str) -> SearchSummary:
-    keyword_matches, keyword_score = _keyword_search(query, corpus)
-    total = len(corpus)
-    vector_matches, vector_score, vector_summary = _vector_search(query, corpus)
-    indexed_at = corpus.indexed_at
-```
-
 ## Constants
 
 ```python
@@ -97,13 +77,5 @@ MEDIUM_CLUSTER_THRESHOLD = 0.02
 LOW_SOURCE_THRESHOLD = 0.10
 ```
 
-Bad — arbitrary order, no grouping, redundant prefixes:
-
-```python
-SUSPICIOUS_SCORE_THRESHOLD = 0.20
-SUSPICIOUS_DURATION_THRESHOLD = 15.0
-HIGH_CONFIDENCE_SCORE_THRESHOLD = 0.20
-MEDIUM_CONFIDENCE_CLUSTER_THRESHOLD = 0.02
-LOW_CONFIDENCE_SOURCE_THRESHOLD = 0.10
-MEDIUM_CONFIDENCE_SCORE_THRESHOLD = 0.05
-```
+Order by group and drop redundant prefixes: `HIGH_SCORE_THRESHOLD`, not
+`HIGH_CONFIDENCE_SCORE_THRESHOLD` scattered among unrelated constants.
