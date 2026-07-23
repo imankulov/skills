@@ -85,11 +85,13 @@ expansion. Define enums as separate classes inheriting from `TextChoices`.
 
 ## Schema Fields
 
-For structured JSON data stored in a model field, use a schema field backed by Pydantic
-instead of raw JSONField:
+For structured JSON data stored in a model field, use
+[`django-pydantic-field`](https://github.com/surenkov/django-pydantic-field) instead of
+a raw JSONField — it validates on save and returns a typed model on read:
 
 ```python
-from pydantic import BaseModel
+from django_pydantic_field import SchemaField
+from pydantic import BaseModel, ConfigDict
 
 class UserSettings(BaseModel):
     model_config = ConfigDict(frozen=True)
@@ -100,6 +102,12 @@ class UserSettings(BaseModel):
 class User(MutableModel):
     settings: UserSettings = SchemaField(UserSettings, default=UserSettings)
 ```
+
+Pass the schema explicitly as the first argument even when the attribute is annotated —
+the annotation documents the type for readers and type checkers, the argument is what
+the field uses. `default=` takes a callable, so a Pydantic class whose fields all have
+defaults works directly (`default=UserSettings`); use `default=dict` for an unstructured
+`dict[str, Any]` field.
 
 ## Model Meta
 
