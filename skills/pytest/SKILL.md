@@ -62,15 +62,70 @@ than repeating near-identical test bodies.
 
 ```bash
 # All tests (excluding e2e)
-uv run pytest -m "not e2e" -vv -s
+uv run pytest -m "not e2e" -q --tb=short
 
-# Specific test file or function
-uv run pytest path/to/test_file.py::test_function_name -vv -s
+# Stop at the first failure, then iterate on only what failed
+uv run pytest -m "not e2e" -q --tb=short -x
+uv run pytest --lf -q --tb=short
+
+# Full assertion diff for one test, once you know which one failed
+uv run pytest path/to/test_file.py::test_function_name -vv
 ```
 
-Always use `-vv` (verbose) and `-s` (show stdout). Exclude e2e tests by default — they
-call external services and are slow/flaky. Only run e2e when changes directly affect
-e2e-tested code.
+Run with `-q --tb=short`. `-q` collapses passing tests into progress dots while keeping
+the `FAILED path::test_name - reason` summary, so output stays flat as the suite grows;
+`-v`/`-vv` print a line per passing test, which costs roughly 10k tokens of context on a
+green 500-test suite against ~150 for `-q`.
+
+Leave `-s` off. Pytest already replays a failing test's `Captured stdout call`,
+`Captured stderr call`, and `Captured log call` sections; `-s` adds only the output of
+tests that passed.
+
+Escalate to `-vv` on a single node ID, never the whole suite. At default verbosity pytest
+trims long assertion diffs to the differing items and prints `use -vv to show` — re-run
+that one test when the trimmed diff isn't enough.
+
+Exclude e2e tests by default — they call external services and are slow/flaky. Only run
+e2e when changes directly affect e2e-tested code.
+
+Make the defaults stick in `pyproject.toml` so every invocation inherits them:
+
+```toml
+[tool.pytest.ini_options]
+addopts = "-q --tb=short"
+```
+
+## Django Test Database
+
+On Django projects, extend `addopts` with `--reuse-db` so the test database survives
+between runs instead of being dropped and rebuilt from migrations every time:
+
+```toml
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "myproject.settings"
+addopts = "-q --tb=short --reuse-db"
+```
+
+Adding a migration needs no extra flag — `--reuse-db` only skips dropping and recreating
+the database, not the `migrate` that follows, so new migrations apply on the next run.
+Pairing it with `--no-migrations` breaks that: the schema is then built by `run_syncdb`,
+which creates missing tables but never alters existing ones, so every schema change from
+then on needs `--create-db`.
+
+Reach for `--create-db` when the reused database is genuinely broken, which shows up as a
+schema error contradicting the current models:
+
+- `OperationalError: table myapp_thing has no column named shade` — an existing migration
+  was edited in place, so the database has it recorded as applied and never re-runs it
+- `IntegrityError: NOT NULL constraint failed: ...` or `InconsistentMigrationHistory` —
+  the database still carries a migration the current branch no longer has
+
+```bash
+uv run pytest --create-db
+```
+
+`--create-db` overrides `--reuse-db` for that run and leaves the rebuilt database in place
+for the next one, so pass it once rather than adding it to `addopts`.
 
 ## Django Database Access
 
