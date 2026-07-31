@@ -2,12 +2,13 @@
 
 ## types.py Files
 
-Place all Pydantic models and enums in `types.py` files within each module.
+Place a Pydantic model, enum, or type alias in the module's `types.py` once more than one
+file in that module uses it. A type used by a single file stays in that file, near the top.
 
 ### What Goes in types.py
 
 - Pydantic models (data transfer objects, API schemas, configuration objects)
-- Enums used across multiple files in the module
+- Enums
 - Type aliases and TypedDict definitions
 - Module-level constants closely related to the types
 
@@ -16,7 +17,6 @@ Place all Pydantic models and enums in `types.py` files within each module.
 - Django models -> `models.py`
 - Django model field choices (`TextChoices`) -> `models.py`, alongside the model
 - API endpoint schemas used only in one router -> can stay in `api.py`
-- Internal helper types used only in one file -> can stay in that file
 
 ## Example
 
@@ -39,21 +39,6 @@ class Plan(BaseModel):
     plan_id: PlanId
     name: str
     description: str
-```
-
-```python
-# myapp/models.py — TextChoices stay here
-from django.db import models
-from django_enum import EnumField
-
-class RefreshStatus(models.TextChoices):
-    PENDING = "PENDING", "Pending"
-    STARTED = "STARTED", "Started"
-    COMPLETED = "COMPLETED", "Completed"
-    FAILED = "FAILED", "Failed"
-
-class RefreshOperation(models.Model):
-    status = EnumField(RefreshStatus, max_length=20)
 ```
 
 ## const.py Files
@@ -82,16 +67,26 @@ DEFAULT_TIMEOUT_SECONDS = 30
 CACHE_KEY_PREFIX = "myapp"
 ```
 
-## Typical Module Structure
+## Typical Structure
+
+Exceptions and configuration sit at the app level, above every module that uses them. A module
+holds its own data layer, services, and entry points — no `exceptions.py` inside it. Modules are
+domain-named siblings; each one has the same shape.
 
 ```
 myapp/
 ├── __init__.py
-├── const.py             # Top-level constants (no internal imports)
-├── types.py             # Pydantic models, enums, type aliases
-├── models.py            # Django models and TextChoices
-├── services.py          # Business logic
-├── api.py               # API endpoints
-├── tasks.py             # Celery tasks
-└── tests/
+├── config.py                # App configuration
+├── exceptions.py            # App-wide exception hierarchy
+├── authentication/          # Sibling module, same shape
+├── annual_reports/          # Sibling module, same shape
+└── billing/
+    ├── __init__.py
+    ├── const.py             # Top-level constants (no internal imports)
+    ├── types.py             # Pydantic models, enums, type aliases
+    ├── models.py            # Django models and TextChoices
+    ├── services.py          # Business logic
+    ├── api.py               # API endpoints
+    ├── tasks.py             # Celery tasks
+    └── tests/
 ```

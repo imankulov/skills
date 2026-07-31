@@ -22,20 +22,11 @@ user = UserData(user_id=1, name="John Doe")
 
 Use the right enum type for the context:
 
-- **Django model field choices**: `models.TextChoices` (provides labels for admin/forms)
-- **Other string-valued enums**: `StrEnum` with `auto()`
+- **String-valued enums**: `StrEnum` with `auto()`
 - **Integer enums**: `IntEnum`
+- **Django model field choices**: `models.TextChoices` — see the django skill
 
 ```python
-# Django model choices
-from django.db import models
-
-class ScheduleReason(models.TextChoices):
-    PROPERTY_CREATED = "PROPERTY_CREATED", "Property Created"
-    PROPERTY_UPDATED = "PROPERTY_UPDATED", "Property Updated"
-    ADMIN_REQUESTED = "ADMIN_REQUESTED", "Admin Requested"
-
-# General-purpose string enum
 from enum import StrEnum, auto
 
 class UserRole(StrEnum):

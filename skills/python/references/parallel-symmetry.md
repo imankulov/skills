@@ -16,15 +16,18 @@ Audit all layers before finalizing. If one path uses `vector_score`, the other m
 class KeywordMatch(BaseModel): ...
 class VectorMatch(BaseModel): ...
 
-class SearchSummary(BaseModel):
-    keyword_matches: list[KeywordMatch]
-    keyword_score: float
-    vector_matches: list[VectorMatch]
-    vector_score: float
+class KeywordResult(BaseModel):
+    matches: list[KeywordMatch] = []
+    score: float = 0.0
+
+class VectorResult(BaseModel):
+    matches: list[VectorMatch] = []
+    score: float = 0.0
+    summary: str = ""
 
 # services.py
-def _keyword_search(query, corpus) -> ...: ...
-def _vector_search(query, corpus) -> ...: ...
+def _keyword_search(query: str, corpus: list[Document]) -> KeywordResult: ...
+def _vector_search(query: str, corpus: list[Document]) -> VectorResult: ...
 ```
 
 ## 2. Abstraction level
@@ -33,25 +36,25 @@ Both paths handle their own edge cases, guards, and error handling internally. T
 interchangeable black boxes with the same level of polish.
 
 ```python
-def _keyword_search(query, corpus) -> tuple[list[KeywordMatch], float]:
-    """Returns empty results if the corpus is empty."""
+def _keyword_search(query: str, corpus: list[Document]) -> KeywordResult:
+    """Returns an empty result if the corpus is empty."""
     if not corpus:
-        return [], 0.0
+        return KeywordResult()
     ...
 
-def _vector_search(query, corpus) -> tuple[list[VectorMatch], float, str]:
-    """Returns empty results if the API key is missing or the call fails."""
+def _vector_search(query: str, corpus: list[Document]) -> VectorResult:
+    """Returns an empty result if the API key is missing or the call fails."""
     if not config.EMBEDDING_API_KEY:
-        return [], 0.0, ""
+        return VectorResult()
     try:
         return _vector_search_remote(query, corpus)
-    except Exception as e:
-        logger.warning("Vector search failed: {}", e)
-        return [], 0.0, ""
+    except Exception as exc:
+        logger.warning("Vector search failed: %s", exc)
+        return VectorResult()
 
 # Caller — symmetric, no special handling for either path
-keyword_matches, keyword_score = _keyword_search(query, corpus)
-vector_matches, vector_score, vector_summary = _vector_search(query, corpus)
+keyword = _keyword_search(query, corpus)
+vector = _vector_search(query, corpus)
 ```
 
 ## 3. Data shapes

@@ -23,18 +23,30 @@ function signatures, consistent module organization, and a layered architecture.
 
 ## App Architecture
 
-Dependencies flow downward. Higher-level modules import from lower-level modules,
-never the reverse.
+### Screaming Architecture
+
+Name modules after the domain — `billing/`, `authentication/`, `annual_reports/` — so the
+directory listing says what the app does rather than which framework it uses. Directories carry
+the domain; the layers below live in files inside them (`billing/services.py`, `billing/api.py`).
+A top-level `models/` or `views/` directory inverts that and scatters one domain across the tree.
+
+Keep the modules flat — `auth/`, `users/`, and `billing/` as siblings, not `users/auth/` and
+`users/billing/`. Nesting buries domains a level down, so the top-level listing stops telling
+you at a glance what the app is about.
+
+### Layers
+
+Dependencies flow downward. Each layer imports from the one below it, never the reverse.
 
 ```
 +-------------------------------------------------------+
 |  api.py, tasks.py, admin.py, ...  (entry points)      |
-+----------------------------+---------------------------+
++-------------------------------------------------------+
                              | imports
                              v
 +-------------------------------------------------------+
-|              services.py  (business logic)             |
-+----------------------------+---------------------------+
+|             services.py  (business logic)             |
++-------------------------------------------------------+
                              | imports
                              v
 +-------------------------------------------------------+
@@ -62,7 +74,6 @@ a circular dependency; needing this often means the module structure needs refac
 
 Service functions own the base name. Entry points that wrap them add a suffix for their
 layer, so `from myapp.services import create_user` works everywhere without aliasing.
-Never use `import ... as` to work around a naming conflict; use the suffix instead.
 
 | Layer | Suffix | Example |
 |-------|--------|---------|
@@ -77,7 +88,7 @@ Never use `import ... as` to work around a naming conflict; use the suffix inste
 - Google-style docstrings without type information (types live in the signature).
 - For functions with more than 3 parameters, use keyword-only arguments (`*`).
 - Prefix internal helper functions with underscore and keep their docstrings to one line.
-- Order a file top-down like a newspaper (Robert C. Martin's *Clean Code*): public functions first, helpers below, a single-caller `_helper` directly under its caller. Group Pydantic/dataclass types near the top so they're defined before use.
+- Order a file top-down like a newspaper (Robert C. Martin's *Clean Code*): public functions first, helpers below, a single-caller `_helper` directly under its caller. Group Pydantic models near the top so they're defined before use.
 
 ```python
 def process_user_data(*, user_id: int, name: str, email: str, age: int) -> UserData:
@@ -91,6 +102,9 @@ def process_user_data(*, user_id: int, name: str, email: str, age: int) -> UserD
 
     Returns:
         Processed user data with validation status
+
+    Raises:
+        ValueError: If the email is malformed or the age is negative
     """
     ...
 
@@ -98,6 +112,19 @@ def _format_name(first: str, last: str) -> str:
     """Combine first and last name into full name."""
     return f"{first} {last}".strip()
 ```
+
+## Exceptions
+
+Service functions signal failure by raising. List every exception a function raises on purpose
+in the docstring's `Raises:` section — that contract is what entry points read to decide what
+to catch and how to translate it.
+
+Reach for the built-ins first: `ValueError` for bad input, `RuntimeError` for a broken
+invariant. When the app needs its own, define one hierarchy in `myapp/exceptions.py` — beside
+the app's `__init__.py`, a level above the modules that raise them — with `MyAppError` as the
+base and `MyAppAuthenticationError` and siblings under it. Modules don't get their own
+`exceptions.py`, and a failure mode rarely earns its own class; callers catch the base far
+more often than the leaf.
 
 ## Leading Underscores
 
@@ -114,23 +141,34 @@ Dunders (`__init__`, `__enter__`, …) are Python's protocol, not this conventio
 
 ## Import Hygiene
 
-Don't alias an import without an actual name collision — `from foo import bar as baz`
-obscures the real name.
+Import your own modules under their real name — aliasing internal code hides where a symbol
+came from. When a service function and the entry point wrapping it would collide, apply the
+layer suffix rather than `import ... as`. Reserve aliases for a genuine collision between two
+third-party imports and for their conventional shorthands (`import pandas as pd`).
 
 Shared utilities belong in a utility module. When a *second* module needs a helper first
 written inside another module, move it to a shared location (`utils.py`, `helpers.py`).
 Don't let `module_b` depend on `module_a` just because `module_a` defined a generic
 helper first.
 
-## Type Hints (PEP 604)
+## Type Hints (PEP 604 and 695)
 
 Use modern union syntax (`list[str]`, `dict[str, int] | None`). Never import `List`,
 `Dict`, `Optional`, or `Union` from `typing` for basic types.
+
+Declare generics with PEP 695 type parameters — `class Codec[T]:`,
+`def first[T](items: list[T]) -> T:` — not `TypeVar` plus `Generic`.
 
 ## Class Naming
 
 Treat abbreviations as single words in CamelCase, capitalizing only the first letter:
 `JsonParser`, `ApiClient`, `DbConnection`, `HttpResponse`, `SqlQuery` — not `JSONParser`.
+
+## Logging
+
+Follow the project's logging conventions when its instructions define one. Otherwise use the
+stdlib `logging` module and pass values as lazy `%s` arguments rather than interpolating them:
+`logger.warning("Vector search failed: %s", exc)`, not an f-string.
 
 ## References
 
@@ -144,13 +182,8 @@ For detailed patterns on specific topics, load these as needed:
 
 ## Verification
 
-After writing Python code, verify:
+After writing Python code, verify the two rules that live in references and are easiest to
+miss:
 
-- [ ] Business logic lives in services.py; entry points are thin wrappers
-- [ ] All imports at the top; module reads top-down (public API first, helpers below)
-- [ ] Leading underscores only on internal functions/methods and mutable singleton state — never constants, classes, or cross-module imports
-- [ ] Types annotated where informative (no `Any` on wrappers/passthroughs); 4+ parameters use keyword-only arguments
-- [ ] Modern union syntax, no `typing.Union/Optional/List/Dict`
-- [ ] Class abbreviations use CamelCase (JsonParser, not JSONParser)
 - [ ] Fields, constants, and processing steps grouped by concern, in the same order everywhere
 - [ ] Systems processing the same input in parallel share prefixes, guards, and data shapes

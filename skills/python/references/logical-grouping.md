@@ -35,11 +35,11 @@ class SearchSummary(BaseModel):
 # The constructor follows the same order
 summary = SearchSummary(
     total_documents=total,
-    keyword_matches=keyword_matches,
-    keyword_score=keyword_score,
-    vector_matches=vector_matches,
-    vector_score=vector_score,
-    vector_summary=vector_summary,
+    keyword_matches=keyword.matches,
+    keyword_score=keyword.score,
+    vector_matches=vector.matches,
+    vector_score=vector.score,
+    vector_summary=vector.summary,
 )
 ```
 
@@ -55,10 +55,10 @@ def build_summary(query: str) -> SearchSummary:
     total = len(corpus)
 
     # Keyword backend
-    keyword_matches, keyword_score = _keyword_search(query, corpus)
+    keyword = _keyword_search(query, corpus)
 
     # Vector backend
-    vector_matches, vector_score, vector_summary = _vector_search(query, corpus)
+    vector = _vector_search(query, corpus)
 
     return SearchSummary(...)
 ```
