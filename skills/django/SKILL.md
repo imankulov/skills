@@ -24,7 +24,7 @@ organization, see the **python** skill — those patterns apply to all Python pr
 
 Task functions are suffixed with `_task`, calling the unsuffixed service function.
 This keeps imports clean — `from myapp.services import execute_report` works without
-aliasing. Never use `import ... as` to resolve naming conflicts; use the suffix instead.
+aliasing.
 
 ```python
 from myapp.services import execute_report, fail_report
