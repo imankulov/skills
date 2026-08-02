@@ -28,7 +28,8 @@
       "skills": [
         "docstore",
         "screenshot-maker",
-        "sessions"
+        "sessions",
+        "claude-code-review"
       ],
       "description": "Utilities for documentation and agent workflows."
     },
