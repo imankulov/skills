@@ -95,7 +95,25 @@ Writing the pages:
 - State methodology limits where the reader needs them (sample size, who rated what,
   what the data can't show), not in a disclaimers appendix.
 
-## 4. Charts
+## 4. Diagrams and charts
+
+Prefer Mermaid diagrams over ASCII art for architecture, flows, sequences,
+hierarchies, and other relationships. Mermaid renders more clearly in the Zensical
+site, adapts to its light and dark themes, and remains editable as text. Use ASCII art
+only when the literal monospace layout is itself the subject or Mermaid cannot express
+the relationship adequately.
+
+Enable Zensical's native Mermaid support in `zensical.toml`:
+
+```toml
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+```
+
+Write diagrams as fenced `mermaid` blocks and verify them in the built site. Keep
+pre-rendered SVG for quantitative charts, where exact marks, scales, and labels matter.
 
 Follow the dataviz skill if available (form selection, palette validation, mark
 specs). Regardless:
