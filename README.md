@@ -33,6 +33,7 @@ installation.
 | Research | [deep-research-report](skills/deep-research-report/) | Investigate a set of questions and publish a durable multi-page report with charts, raw data, and an adversarial review |
 | Tools | [docstore](skills/docstore/) | Organize semi-structured document repositories into predictable collections |
 | Tools | [screenshot-maker](skills/screenshot-maker/) | Produce framed documentation screenshots with targeting and redaction controls |
+| Tools | [connected-chrome](skills/connected-chrome/) | Route browser work to an agent's user-facing Chrome integration |
 | Tools | [sessions](skills/sessions/) | Find and inspect past Claude Code sessions for the current project |
 | Tools | [claude-code-review](skills/claude-code-review/) | Run an independent Claude Code review, verify its findings, and fix confirmed issues |
 | Security | [dependency-cooldown](skills/dependency-cooldown/) | Block newly released package versions during a configurable safety period |

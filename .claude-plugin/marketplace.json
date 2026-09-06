@@ -38,6 +38,36 @@
       ]
     },
     {
+      "name": "connected-chrome",
+      "displayName": "Connected Chrome",
+      "source": "./",
+      "skills": [
+        "./skills/connected-chrome"
+      ],
+      "strict": false,
+      "description": "Route browser work to the agent's user-facing Chrome integration.",
+      "author": {
+        "name": "Roman Imankulov",
+        "email": "roman.imankulov@gmail.com",
+        "url": "https://github.com/imankulov"
+      },
+      "homepage": "https://github.com/imankulov/skills/tree/main/skills/connected-chrome",
+      "repository": "https://github.com/imankulov/skills",
+      "keywords": [
+        "chrome",
+        "browser",
+        "profile",
+        "extension"
+      ],
+      "category": "development",
+      "tags": [
+        "chrome",
+        "browser",
+        "profile",
+        "extension"
+      ]
+    },
+    {
       "name": "deep-research-report",
       "displayName": "Deep Research Report",
       "source": "./",
