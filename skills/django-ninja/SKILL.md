@@ -25,6 +25,29 @@ Opinionated conventions for building APIs with Django Ninja.
 - Create a router per module: `router = Router(tags=["module_name"])`
 - Keep endpoints as thin wrappers that call service functions for all business logic
 
+### One API instance
+
+Construct `NinjaAPI` exactly once, in the project's root `urls.py`. Ninja refuses a second
+instance sharing the same version, so tests and scripts import the existing one
+(`from myproject.urls import api`) instead of building their own.
+
+### Routers carry no prefix
+
+A `Router` gets `tags=[...]` and nothing else. The mount prefix is set where the router is
+attached in `urls.py`, derived from the app label. Putting a prefix on the router too
+means the path is spelled in two places and they drift.
+
+### Paths and signatures
+
+- Every handler takes `request: HttpRequest` (or the tier-specific request type) as its
+  first parameter; the body model is a separate parameter after it.
+- A route on the collection itself uses the empty path — `@router.get("")`, not
+  `@router.get("/")`. Without `CommonMiddleware` there's no `APPEND_SLASH` redirect, so a
+  request to `/api/reports` has to match exactly.
+- Never return a bare tuple. Ninja reads a 2-tuple as `(status, body)`, so a service
+  returning `tuple[Model, ...]` has to be wrapped in `list(...)` under
+  `response=list[Model]`.
+
 ### Naming Convention
 
 Suffix API endpoint functions with `_api` so the service function they wrap keeps
@@ -43,6 +66,15 @@ def create_user_api(request: AuthenticatedHttpRequest, input_data: CreateUserInp
 ```
 
 ## Authentication
+
+Set authentication API-wide on the `NinjaAPI` instance so a new router is protected
+without doing anything, and let the rare anonymous route opt out with `auth=None` — a
+login endpoint, say. Defaulting to open and remembering to lock each route down is the
+wrong way round.
+
+Session auth enforces CSRF on unsafe methods. `CsrfViewMiddleware` never rejects these
+calls, since API views are `csrf_exempt` at the Django level — it only sets the cookie —
+so the client has to send the token back in the `X-CSRFToken` header.
 
 Use two auth tiers, and match the request type annotation to the tier:
 
@@ -65,3 +97,15 @@ def get_features(request: AnyUserHttpRequest) -> Features:
 - Use Pydantic models for input parameters, suffixed with `Input`
 - Return typed Pydantic response models, never dicts
 - Keep models in `types.py` unless used only in one endpoint
+
+## Errors
+
+Raise `ninja.errors.HttpError` for client mistakes — a bad ID, a missing resource. For the
+exceptions services raise on purpose, register one handler on the API instance that maps
+the app's exception hierarchy to status codes. Handlers then stay free of `try`/`except`
+wrappers, and every endpoint reports the same failure the same way.
+
+## Interactive docs
+
+The generated docs live at `/api/docs` and render through a template, so `TEMPLATES` needs
+at least a minimal entry in settings even for a project that serves no HTML.
