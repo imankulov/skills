@@ -1,5 +1,15 @@
 # Python Module Organization
 
+## __init__.py: present, and empty
+
+Every package has an `__init__.py`. No implicit namespace packages — the file is what
+marks the directory as a package, and that's the whole of its job. It holds no code and no
+re-exports.
+
+Import from the module where the code actually lives (`from myapp.utils.pydantic import
+FrozenModel`), never from a package that re-exports a nested name (`from myapp.utils import
+FrozenModel`). The longer path says where to go read it.
+
 ## types.py Files
 
 Place a Pydantic model, enum, or type alias in the module's `types.py` once more than one

@@ -63,6 +63,12 @@ that all depend on services; cross-imports create circular dependencies and tigh
 entry point — an API endpoint, a background task, a CLI command, and an admin action
 can all call the same service function.
 
+A service takes structured input and returns structured output. It may do whatever I/O the
+work requires — read a file it was given a path to, query the database, call a third-party
+API — but it never touches the user-facing edge: no prompting or argument parsing, no
+coercing raw strings into typed values, no reaching into an HTTP request or another
+framework object, no formatting results for display. All of that belongs in the wrapper.
+
 **Data layer** (models.py, types.py, const.py) defines data structures with zero
 business logic. `const.py` must have no internal imports — it's safe to import from
 anywhere.
@@ -85,10 +91,14 @@ layer, so `from myapp.services import create_user` works everywhere without alia
 ## Functions
 
 - Type-annotate parameters and return values when the type carries information. If the only honest type is `Any` (a wrapper around an optional/dynamically-imported library, a generic decorator, a `**kwargs` passthrough), leave it unannotated — `Any` adds noise without helping the reader, the type checker, or the IDE.
-- Google-style docstrings without type information (types live in the signature).
+- Docstrings carry no type information — types live in the signature. See [Docstrings and comments](references/docstrings.md) for how much to write.
 - For functions with more than 3 parameters, use keyword-only arguments (`*`).
 - Prefix internal helper functions with underscore and keep their docstrings to one line.
+- Inline a helper that has one caller, unless it holds logic worth testing on its own — a predicate, a mapper, a conversion. Naming those lets a test drive them with hand-built inputs instead of setting up everything the caller needs; otherwise a second name for one function's body buys nothing.
 - Order a file top-down like a newspaper (Robert C. Martin's *Clean Code*): public functions first, helpers below, a single-caller `_helper` directly under its caller. Group Pydantic models near the top so they're defined before use.
+
+The extended docstring form below is what a function looks like once it has earned all
+three sections; most functions stop at the one-line summary.
 
 ```python
 def process_user_data(*, user_id: int, name: str, email: str, age: int) -> UserData:
@@ -159,9 +169,20 @@ Use modern union syntax (`list[str]`, `dict[str, int] | None`). Never import `Li
 Declare generics with PEP 695 type parameters — `class Codec[T]:`,
 `def first[T](items: list[T]) -> T:` — not `TypeVar` plus `Generic`.
 
-## Class Naming
+## Naming
 
-Treat abbreviations as single words in CamelCase, capitalizing only the first letter:
+The same rules cover variables, functions, classes, packages, and module filenames.
+
+**Write words out.** Prefer `document` to `doc`, `request_id` to `req_id`, `configuration`
+to `cfg`. Dropped vowels and truncations save a few keystrokes and cost every later reader a
+guess. The exceptions are the short forms that are more familiar than what they stand for —
+`id`, `url`, `json`, `csv`, `http` — and even those go unabbreviated when there's any doubt.
+
+**Always separate words.** `snake_case` for variables, functions, and module filenames;
+`CamelCase` for classes. Never run two words together without a boundary: `parse_payload`,
+not `parsepayload`; `RetryPolicy`, not `Retrypolicy`; `sync_state.py`, not `syncstate.py`.
+
+**Treat abbreviations as single words in CamelCase**, capitalizing only the first letter:
 `JsonParser`, `ApiClient`, `DbConnection`, `HttpResponse`, `SqlQuery` — not `JSONParser`.
 
 ## Logging
@@ -175,6 +196,7 @@ stdlib `logging` module and pass values as lazy `%s` arguments rather than inter
 For detailed patterns on specific topics, load these as needed:
 
 - [Data structures](references/data-structures.md) — Pydantic vs dicts, enums, interfaces, TypedDict
+- [Docstrings and comments](references/docstrings.md) — how much to write, when sections earn their place
 - [Module organization](references/module-organization.md) — types.py, const.py placement rules
 - [Logical grouping](references/logical-grouping.md) — keeping fields, constants, and steps grouped by concern
 - [Parallel symmetry](references/parallel-symmetry.md) — naming and shape when two systems process the same input

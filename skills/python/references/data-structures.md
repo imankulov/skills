@@ -2,7 +2,9 @@
 
 ## Use Pydantic Models for Structured Data
 
-Prefer Pydantic models over raw dictionaries. Use frozen models (immutable) by default:
+Reach for a Pydantic model ahead of every other way of holding structured data:
+dataclasses, dicts, `TypedDict`s, tuples, and named tuples. Make it frozen whenever
+nothing needs to mutate it, which is most of the time:
 
 ```python
 from pydantic import BaseModel, ConfigDict
@@ -17,6 +19,31 @@ class UserData(BaseModel):
 # Usage
 user = UserData(user_id=1, name="John Doe")
 ```
+
+Leave `extra` at its default. A model often outlives the schema it was written under — a
+stored JSON snapshot, a cached payload, a response persisted months ago — so `"forbid"`
+turns a key nobody reads into a failed load of older data.
+
+### Enable the mypy plugin
+
+A project using Pydantic enables its mypy plugin. Set `init_forbid_extra` so a misspelled
+keyword in a constructor call is caught at the call site rather than silently ignored at
+runtime, and `init_typed` so argument types are checked there too.
+
+```toml
+# pyproject.toml
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+```
+
+### Define a shared base
+
+Put the shared `model_config` on one base class in the project's utility module and
+subclass it, rather than repeating `ConfigDict(...)` in every model.
 
 ## Enums
 
