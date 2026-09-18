@@ -113,5 +113,6 @@ After writing Django code, verify the rules that live in references and are easi
 miss:
 
 - [ ] Admin actions call service functions for mutations
+- [ ] No tests written for `admin.py` — logic worth testing was moved to `services.py` first
 - [ ] Persisted-field replacements include a data migration that preserves existing
       values, plus a migration test when loss would be user-visible
