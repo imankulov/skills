@@ -86,6 +86,31 @@ Use [zensical](https://zensical.org) (`uvx zensical serve|build`, TOML config,
 └── scripts/           # reproduction artifacts: harnesses, chart generators, notes
 ```
 
+**`zensical.toml` schema — get this right the first time, it's easy to guess wrong**
+(confirmed against `zensical new <dir>`'s generated template, since the format isn't
+what an mkdocs-style `[nav]` table would suggest):
+
+```toml
+site_name = "Report Title"
+
+nav = [
+    { "Page One Title" = "page-one.md" },
+    { "Page Two Title" = "page-two.md" },
+]
+
+[plugins.offline]
+enabled = true
+```
+
+`nav` is a **top-level array of single-key tables** (`{ "Title" = "path.md" }`), not a
+`[nav]` table with a `pages` key of `{title=, path=}` objects — that shape silently
+produces a single broken sidebar entry (title "none", a bogus href) instead of erroring,
+so the mistake won't show up in `zensical build`'s warnings. After first building a new
+report site, always fetch the built `index.html` and grep for `md-nav__link` /
+`md-ellipsis` to confirm every page in `nav` actually appears as a distinct link — a
+clean `zensical build` with zero warnings does not by itself prove the sidebar is
+correct.
+
 Writing the pages:
 
 - Every recommendation names its evidence; every number says where it came from.
