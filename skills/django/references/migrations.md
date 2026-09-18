@@ -66,12 +66,3 @@ silently reinterpreted:
 
 Test the reverse migration when rollback is supported and non-trivial. The test should
 prove preserved meaning, not merely that the migration completes.
-
-## Verification
-
-- [ ] New schema exists before the data copy runs
-- [ ] Data functions use historical models from `apps`
-- [ ] Every persisted legacy value has a deterministic destination
-- [ ] Reverse behavior is implemented or explicitly documented as irreversible
-- [ ] Foreign keys are populated only after both sides exist
-- [ ] A migration test covers user-visible or configuration data preservation

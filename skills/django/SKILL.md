@@ -109,12 +109,9 @@ For detailed patterns on specific Django components, load these references as ne
 
 ## Verification
 
-After writing Django code, verify:
+After writing Django code, verify the rules that live in references and are easiest to
+miss:
 
-- [ ] Celery tasks are named `<service_function>_task`
-- [ ] Tasks are scheduled from entry points, not services
-- [ ] Repeated create-then-schedule logic is extracted into a `schedule_*` helper in tasks.py
-- [ ] Cross-app reactions use custom signals emitted from services, not `post_save`
 - [ ] Admin actions call service functions for mutations
 - [ ] Persisted-field replacements include a data migration that preserves existing
       values, plus a migration test when loss would be user-visible
